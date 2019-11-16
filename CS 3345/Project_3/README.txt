@@ -1,6 +1,6 @@
 Name: Sanjeev Penupala
 NetID: sxp170022
-Project: Project #3
+Project: #3
 
 Files:
 - README.txt

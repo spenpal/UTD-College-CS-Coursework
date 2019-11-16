@@ -1,10 +1,10 @@
 Name: Sanjeev Penupala
 NetID: sxp170022
-Project: #4
+Project: #5
 
 Files:
 - README.txt
-- RedBlackTree.java
+- QuickSorter.java
 - Main.java
 
 Details:
@@ -17,5 +17,4 @@ Sample Input:
 Sample Output:
 ***Same As Project Description***
 
-Grade: 76/100
-=> 7/36 Test Cases Passed
+Grade: 
