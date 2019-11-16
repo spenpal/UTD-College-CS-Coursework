@@ -16,3 +16,6 @@ Sample Input:
 
 Sample Output:
 ***Same As Project Description***
+
+Grade: 76/100
+=> 7/36 Test Cases Passed
