@@ -6,8 +6,8 @@ Files Included:
 - MyItem.java
 - IDedObject.java
 - IDedLinkedList.java
- - P2Driver.java
- - Data: data/*
+- P2Driver.java
+- Data: data/*
  
 IDE: IntelliJ
 Version of Java: Version 13
