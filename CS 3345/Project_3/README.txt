@@ -6,6 +6,7 @@ Files:
 - README.txt
 - LazyBinarySearchTree.java
 - Main.java
+- Data: input.txt
 
 Details:
 - IDE: IntelliJ
