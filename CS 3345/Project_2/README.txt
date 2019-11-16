@@ -1,7 +1,12 @@
 Name: Sanjeev Penupala
 NET_ID: SXP170022
 Project: #2
-Files Included: MyItem.java, IDedObject.java, IDedLinkedList.java, P2Driver.java
+Files Included: 
+- MyItem.java
+- IDedObject.java
+- IDedLinkedList.java
+ - P2Driver.java
+ - Data: data/*
 IDE: IntelliJ
 Version of Java: Version 13
 Notes:
