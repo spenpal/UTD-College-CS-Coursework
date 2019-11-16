@@ -47,7 +47,7 @@ public class LazyBinarySearchTree
      * then insert should “un-delete” the deleted element in-place rather than physically inserting a new copy of the element
      * The return value of insert should indicate whether insert logically (as opposed to physically) inserted a new element.
      *
-     * @param   key Number Being Inserted Into BST
+     * @param       key Number Being Inserted Into BST
      * @return      Boolean value whether the insertion was successfully or not
      */
     public boolean insert(int key) throws IllegalArgumentException
@@ -127,9 +127,9 @@ public class LazyBinarySearchTree
      * If the specified element is not in the tree or is already marked as deleted, then delete should do nothing
      * The return value of delete should indicate whether delete logically deleted an element.
      *
-     * @param   key Number Being Lazily Deleted From The BST
+     * @param       key Number Being Lazily Deleted From The BST
      * @return      Boolean value whether the deletion was successfully or not
-     * @throws IllegalArgumentException
+     * @throws      IllegalArgumentException
      */
     public boolean delete(int key) throws IllegalArgumentException
     {
@@ -254,7 +254,7 @@ public class LazyBinarySearchTree
      *
      * @param key   Number To Be Found From The BST
      * @return      Boolean value whether the deletion was successfully or not
-     * @throws IllegalArgumentException
+     * @throws      IllegalArgumentException
      */
     public boolean contains(int key) throws IllegalArgumentException
     {
@@ -292,7 +292,7 @@ public class LazyBinarySearchTree
      * Every pair of adjacent elements should be separated by whitespace in the printing,
      * but no whitespace should occur between an asterisk and the element with which it is associated.
      *
-     * @return Pre-Order Printing Of the BST Tree
+     * @return      Pre-Order Printing Of the BST Tree
      */
     public String toString()
     {
