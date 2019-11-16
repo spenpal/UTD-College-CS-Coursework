@@ -40,7 +40,7 @@ public class Main
                     {
                         id = chopper.nextInt();
                         result = tree.insert(id);
-                        //result = Insert the item into the BST and get true or false
+                        // result = Insert the item into the BST and get true or false
                         out.println(result ? "True" : "False");
                     }
                     catch (Exception e)

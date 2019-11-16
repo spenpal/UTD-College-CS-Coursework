@@ -3,7 +3,7 @@ import com.sun.source.tree.Tree;
 public class LazyBinarySearchTree
 {
     /**
-     * TreeNode is a node in the BST data strucutre that stores the key (number) and pointers to its left and right childs
+     * TreeNode is a node in the BST data structure that stores the key (number) and pointers to its left and right childs
      */
     class TreeNode
     {
@@ -44,7 +44,7 @@ public class LazyBinarySearchTree
      * The valid set of keys is all integers in the range [1,99]
      * If the new element would be a duplicate of a non-deleted element already in the tree, then insert should do nothing
      * However, if the new element is not a duplicate of a non-deleted element, but is a duplicate of a deleted element,
-     * then insert should “undelete” the deleted element in-place rather than physically inserting a new copy of the element
+     * then insert should “un-delete” the deleted element in-place rather than physically inserting a new copy of the element
      * The return value of insert should indicate whether insert logically (as opposed to physically) inserted a new element.
      *
      * @param   key Number Being Inserted Into BST
