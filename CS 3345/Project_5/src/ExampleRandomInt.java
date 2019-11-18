@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class ExampleRandomInt
-{ 
+{
     public static final int COUNT = 100;
 
     public static void main(String[] args)
@@ -20,8 +20,9 @@ public class ExampleRandomInt
 
         // OPTION 2:  use the ints(long) method
         random.ints(COUNT).forEach( num -> System.out.println(num) );
+
         int min = 1, max = 10;
-		for (int i = 0; i < 10; i++)
+		  for (int i = 0; i < 10; i++)
         {
             System.out.println(rand(min, max));
         }
@@ -31,7 +32,7 @@ public class ExampleRandomInt
 	* Generates a pseudo-random integer in the range [min, max]
 	* @param min : the starting value of the range (inclusive)
 	* @param max : the ending value of the range (inclusive)
-     * @return 
+     * @return
 	*/
     public static int rand(int min, int max)
 	{

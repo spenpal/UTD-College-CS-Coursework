@@ -44,6 +44,6 @@ public class ExampleEnum
     {
         RED,
         GREEN,
-        BLUE;
+        BLUE
     }
 }
