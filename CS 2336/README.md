@@ -7,6 +7,6 @@ Section Number: ?\
 Instructor: Don G Vogel\
 Semester Taken: Fall 2018
 
-*NOTE: Some files may be duplicated from project to project, as each project was an expanded on top of one another*
+*NOTE: Some files may be duplicated from project to project, as each project was an expansion on top of one another*
 
 **IMPORTANT: All Instructions Were Lost For All Projects**
