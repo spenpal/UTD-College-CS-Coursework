@@ -8,4 +8,5 @@ Instructor: Don G Vogel\
 Semester Taken: Fall 2018
 
 *NOTE: Some files may be duplicated from project to project, as each project was an expanded on top of one another*
-**Instructions Were Lost For All Projects**
+
+**IMPORTANT: All Instructions Were Lost For All Projects**
