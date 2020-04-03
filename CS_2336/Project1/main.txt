@@ -1,0 +1,62 @@
+int main()
+{
+	//Input Puzzle
+	string filePuzzleName;
+	cout << "What file would you like to open? :: ";
+	cin >> filePuzzleName;
+
+	//Check and See If Puzzle File is Valid
+	if (readPuzzle(game, filePuzzleName))
+	{
+		cout << "\nThe puzzle from file \"" << filePuzzleName << "\"" << endl;
+	}
+	else
+	{
+		cout << "The puzzle file \"" << filePuzzleName << "\" could not be opened or is invalid" << endl;
+		system("pause");
+		return 0;
+	}
+
+	displayPuzzle(game); //Prints Out Puzzle
+		
+	//Input Words
+	string fileWordsName;
+	cout << "What file would you like to open? :: ";
+	cin >> fileWordsName;
+
+	ifstream input(fileWordsName);
+
+	//Check and See If Words File Is Valid
+	if (input.is_open())
+	{
+		string word;
+
+		while (input >> word)
+		{
+			//int wordLength = static_cast<int>(word.length());
+
+			theFind.word = word;
+
+			findWord(game, theFind);
+
+			if (theFind.found)
+			{
+				cout << "The word " << theFind.word << " was found at (" << theFind.row << ", " << theFind.column << ") - " << to_string(theFind.where) << endl;
+			}
+			else
+			{
+				cout << "The word " << theFind.word << " was not found" << endl;
+			}
+		}
+	}
+	else
+	{
+		cout << "The puzzle file \"" << fileWordsName << "\" could not be opened or is invalid" << endl;
+		system("pause");
+		return 0;
+	}
+
+	system("pause");
+
+	return 0;
+}
