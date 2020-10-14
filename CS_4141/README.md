@@ -1,4 +1,4 @@
-# CS_4141_ASSIGNMENTS
+# CS_4141_LABS
 Assignments Completed In "Digital Systems Laboratory" Course
 
 College: The University Of Texas At Dallas\
