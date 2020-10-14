@@ -1,0 +1,6 @@
+do {
+if ( number % 2 == 0 )
+	even ++; 
+	number=number+1;
+}
+while (number <= 10)

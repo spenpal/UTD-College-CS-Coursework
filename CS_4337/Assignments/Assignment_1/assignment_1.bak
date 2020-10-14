@@ -1,0 +1,16 @@
+#lang scheme
+;Question 5
+
+(define (sumodd lis)
+  (cond
+    ((null? lis) 0)
+    ((not (list? (car lis)))
+     (cond
+       ((> (car lis) `7) (sumodd (cdr lis)))
+       ((not (even? (car lis))) (+ 1 (sumodd (cdr lis))))
+     ))
+    (else (+ (sumodd (car lis)) (sumodd (cdr lis))))
+))
+
+(print (sumodd '( 9 2 3 4 5)))
+(print (sumodd '( 9 2 3 (4 5))))
