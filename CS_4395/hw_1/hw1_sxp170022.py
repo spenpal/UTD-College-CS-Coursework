@@ -1,9 +1,9 @@
-# Filename: hw1_sxp170022.py
-# Date:     1/20/21
-# Author:   Sanjeev Penupala
-# Email:    sanjeev.penupala@utdallas.edu
-# Course:   CS 4395.0W1
-# Copyright 2021, All Rights Reserved
+# Filename:     hw1_sxp170022.py
+# Date:         1/20/21
+# Author:       Sanjeev Penupala
+# Email:        sanjeev.penupala@utdallas.edu
+# Course:       CS 4395.0W1
+# Copyright     2021, All Rights Reserved
 #
 # Description:  
 #
@@ -91,18 +91,20 @@ def process_input(path):
     persons = {}
     
     # Go through all rows in .csv file
-    for idx, line in enumerate(lines):
+    for line in enumerate(lines):
         
         # Order of each row: [last (0), first (1), middle (2), id (3), phone (4)]
         # Perform some preprocessing of each data row
         info = line.split(',')
-        info[0], info[1] = info[0].strip().capitalize(), info[1].strip().capitalize()
-        info[2] = info[2].strip().upper() if info[2] else 'X'
-        info[3], info[4] = info[3].strip().upper(), info[4].strip()
+        info = [line.strip() for line in info]  # Get rid of leading or trailing whitespaces
+        info[0], info[1] = info[0].capitalize(), info[1].capitalize()
+        info[2] = info[2].upper() if info[2] else 'X'
+        info[3]= info[3].upper()
         
         # If ID is valid (2 letters, 4 numbers)
         while not re.search(r'[A-Z]{2}\d{4}', info[3]):
             print(f'The following ID is not valid: {info[3]}')
+            print('Make sure IDs are 2 letters followed by 4 digits')
             info[3] = input("Re-enter correct ID: ").strip().upper()
         
         # If phone number is valid (i.e has 10 digits in it)
