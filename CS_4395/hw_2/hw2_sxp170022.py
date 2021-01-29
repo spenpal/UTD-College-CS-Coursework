@@ -80,11 +80,11 @@ def preprocessing(raw_text):
     #   3. Not be in any of the english stopwords
     # 
     # If these conditions are fullfiled, lowercase the token as well and add it to the resulting tokens list
-    tokens = [t.lower() for t in tokens if t.isalpha() and len(t) > 5 and t not in stpwrds]
+    filtered_tokens = [t.lower() for t in tokens if t.isalpha() and len(t) > 5 and t not in stpwrds]
     
     # Lemmatize all tokens and create a unique list of lemmas
     wnl = WordNetLemmatizer()
-    lemmas = [wnl.lemmatize(t) for t in tokens]
+    lemmas = [wnl.lemmatize(t) for t in filtered_tokens]
     unique_lemmas = set(lemmas)
     
     # Analyze POS tags from all unique lemmas
@@ -94,10 +94,10 @@ def preprocessing(raw_text):
     # Create a unique list of nouns from the raw text
     unique_nouns = [token for token, tag in tags if tag.startswith('N')]
     
-    print(f'Number of tokens: {len(tokens)}')
+    print(f'Number of tokens: {len(filtered_tokens)}')
     print(f'Number of unique nouns: {len(unique_nouns)}\n')
     
-    return tokens, unique_nouns
+    return filtered_tokens, unique_nouns
         
 
 def guessing_game(words):
