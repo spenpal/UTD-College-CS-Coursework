@@ -119,16 +119,15 @@ def statistics(file_name, tokens):
         print(f'{stem + ":":<10}{words}')
     
     print()
-    print('Edit Distance (between all words of stem "continu"):')
+    print('Edit Distance (between all words of stem "continue"):')
     for word in words_of_stems['continu']:
-        edit_dist = edit_distance(word, 'continu') # find Levenshtein distance between 'continu' and word
+        edit_dist = edit_distance(word, 'continue') # find Levenshtein distance between 'continu' and word
         print(f'{word + ":":<15}{edit_dist}')
     
     print()
     print(f'POS Tag Counts of "{file_name}":')
     pos_tokens = pos_tag(tokens)
-    pos_list = list(zip(*pos_tokens))[-1] # get list of pos tags from tokenized list
-    pos_dict = Counter(pos_list) # count up all pos tags
+    pos_dict = Counter(p[1] for p in pos_tokens) # count up all pos tags
     pprint(pos_dict)
     
     
