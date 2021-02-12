@@ -91,7 +91,7 @@ def process_input(path):
     persons = {}
     
     # Go through all rows in .csv file
-    for line in enumerate(lines):
+    for line in lines:
         
         # Order of each row: [last (0), first (1), middle (2), id (3), phone (4)]
         # Perform some preprocessing of each data row
