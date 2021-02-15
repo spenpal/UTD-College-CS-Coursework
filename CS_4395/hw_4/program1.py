@@ -1,5 +1,5 @@
 # Filename:     program1.py
-# Date:         2/10/21
+# Date:         2/13/21
 # Author:       Sanjeev Penupala
 # Email:        sanjeev.penupala@utdallas.edu
 # Course:       CS 4395.0W1
@@ -17,7 +17,6 @@
 
 # Standard Library Imports
 from collections import Counter
-from pprint import pprint
 import pickle
 
 # Third Party Library Imports
@@ -30,7 +29,15 @@ from nltk.util import ngrams
 #############
 
 def ngrams_models(filename):
-    with open(filename, 'r') as f:
+    """Return a unigram and bigram dictionary count of given text file
+
+    Args:
+        filename (str): name of file (in same directory as program)
+
+    Returns:
+        List: unigram, bigram dicts
+    """
+    with open(filename, 'r', encoding='latin1') as f:
         raw_text = f.read()
         raw_text = raw_text.replace('\n', '')
     
@@ -38,7 +45,8 @@ def ngrams_models(filename):
     unigrams = ngrams(tokens, 1)
     bigrams = ngrams(tokens, 2)
     
-    unigrams_dict = Counter(unigrams)
+    # Store counts of unigrams and bigrams in dictionary
+    unigrams_dict = Counter(u[0] for u in unigrams)
     bigrams_dict = Counter(bigrams)
     
     return [unigrams_dict, bigrams_dict]
