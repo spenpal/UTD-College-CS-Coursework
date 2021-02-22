@@ -18,7 +18,7 @@
 ###########
 
 # Standard Library Imports
-
+from collections import deque
 
 # Third Party Library Imports
 from bs4 import BeautifulSoup
@@ -29,42 +29,55 @@ import requests
 # FUNCTIONS #
 #############
 
-def web_crawler(topic, starter_url):
-    r = requests.get(starter_url)
-    soup = BeautifulSoup(r.text, 'html.parser')
-    relevant_urls = []
-    
+def relevant_url(topic, link):
     blacklist = ['google', 'imdb', 'pdf', 'php']
-    for link in set(soup.find_all('a')):
-        link_str = str(link.get('href')).lower()
-        
-        # Edit Scraped Link
-        if link_str.startswith('/url?q='):
-            link_str = link_str[7:]
-            print('MOD:', link_str)
-        if '&' in link_str:
-            i = link_str.find('&')
-            link_str = link_str[:i]
-        
-        # Check if relevant URL
-        if topic not in link_str:
-            continue
-        if not link_str.startswith('http'):
-            continue
-        if any(b in link_str for b in blacklist):
-            continue
-        if 'wikipedia' in link_str and not 'en.wikipedia' in link_str:
-            continue
+    
+    if not link.startswith('http'):
+        return False
+    if topic not in link:
+        return False
+    if any(b in link for b in blacklist):
+        return False
+    if 'wikipedia' in link and not 'en.wikipedia' in link:
+        return False
+    
+    return True
+    
+def web_crawler(topic, starter_url, count):
+    relevant_urls = set()
+    urls = deque([starter_url])
+    
+    while len(relevant_urls) < count:
+        url = urls.popleft()
         
         # Check if URL is accessible and/or has content
         try:
-            status = requests.get(link_str).status_code
-            if status != 200:
+            r = requests.get(url)
+            if r.status_code != 200:
                 continue
         except requests.exceptions.RequestException:
             continue
         
-        relevant_urls.append(link_str)
+        soup = BeautifulSoup(r.text, 'html.parser')
+    
+        for link in soup.find_all('a'):
+            link_str = str(link.get('href')).lower()
+            
+            # Edit Scraped Link
+            if link_str.startswith('/url?q='):
+                link_str = link_str[7:]
+                print('MOD:', link_str)
+            if '&' in link_str:
+                i = link_str.find('&')
+                link_str = link_str[:i] if i != -1 else link_str
+            
+            # Check if relevant URL
+            if not relevant_url(topic=topic, link=link_str):
+                continue
+            
+            urls.append(link_str)
+        
+        relevant_urls.add(url)
         
     return relevant_urls
         
@@ -84,13 +97,13 @@ def important_terms():
 ########
 
 def main():
-    topic = 'magic'
-    starter_url = 'https://en.wikipedia.org/wiki/Magic_(illusion)'
+    topic = 'volleyball'
+    starter_url = 'https://en.wikipedia.org/wiki/Volleyball'
+    count = 20
+    relevant_urls = web_crawler(topic=topic.lower(), starter_url=starter_url.lower(), count=count)
     
-    relevant_urls = web_crawler(topic, starter_url)
-    
-    for relevant in relevant_urls:
-        print(relevant)
+    for idx, url in enumerate(relevant_urls):
+        print(f'{idx + 1}. {url}')
     
     
 if __name__ == '__main__':
