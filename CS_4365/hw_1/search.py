@@ -1,3 +1,9 @@
+# Filename:     search.py
+# Date:         2/25/21
+# Authors:      Sanjeev Penupala, Sanjana Sivakumar
+# Email:        sanjeev.penupala@utdallas.edu, sxs170002@utdallas.edu
+# Course:       CS 4365.001
+
 # search.py
 # ---------
 # Licensing Information:  You are free to use or extend these projects for
