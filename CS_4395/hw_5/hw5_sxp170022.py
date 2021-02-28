@@ -1,5 +1,5 @@
 # Filename:     hw5_sxp170022.py
-# Date:         2/21/21
+# Date:         2/27/21
 # Author:       Sanjeev Penupala
 # Email:        sanjeev.penupala@utdallas.edu
 # Course:       CS 4395.0W1
@@ -18,11 +18,32 @@
 ###########
 
 # Standard Library Imports
-from collections import deque
+from collections import deque, Counter
+import math
+import os
+from pathlib import Path
+from pprint import pprint
+import re
 
 # Third Party Library Imports
 from bs4 import BeautifulSoup
+from nltk import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
 import requests
+
+
+
+###########
+# GLOBALS #
+###########
+
+cwd = Path.cwd()                                            # current working directory
+topic = 'volleyball'                                        # topic to be web crawled for
+starter_url = 'https://en.wikipedia.org/wiki/Volleyball'    # starting url to web crawl
+count = 20                                                  # number of relevant urls to be retrived
+term_count = 25                                             # number of top terms to find in documents
+ordered_nums = iter(range(1, count + 1))
 
 
 #############
@@ -30,7 +51,7 @@ import requests
 #############
 
 def relevant_url(topic, link):
-    blacklist = ['google', 'imdb', 'pdf', 'php']
+    blacklist = ['google', 'pinterest', 'imdb', 'pdf', 'php', 'reddit', 'twitter', 'product']
     
     if not link.startswith('http'):
         return False
@@ -42,7 +63,7 @@ def relevant_url(topic, link):
         return False
     
     return True
-    
+ 
 def web_crawler(topic, starter_url, count):
     relevant_urls = set()
     urls = deque([starter_url])
@@ -78,32 +99,157 @@ def web_crawler(topic, starter_url, count):
             urls.append(link_str)
         
         relevant_urls.add(url)
-        
+       
     return relevant_urls
+
+def web_scraper(url):
+    r = requests.get(url)
+    soup = BeautifulSoup(r.content, 'html.parser')
+     
+    if not soup.title:
+        return
+    
+    text, title = soup.get_text(), f'{topic}-{next(ordered_nums)}'
+    file_path = cwd.joinpath(f'data/scraped/{title}.txt')
+    
+    with open(file_path, 'w') as f:
+        f.write(text)
+
+def text_prettify(filename):
+    scraped_file_path = cwd.joinpath(f'data/scraped/{filename}')
+    clean_file_path = cwd.joinpath(f'data/clean/{filename}')
+    
+    with open(scraped_file_path, 'r') as f:
+        text = f.read()
+        text = re.sub(r'[\n\t]', ' ', text)
+        sents = sent_tokenize(text)
         
+        new_sents = []
+        for sent in sents:
+            new_sents += re.split(r'\s{3,}', sent)
+        new_sents = [sent for sent in new_sents if sent]
+            
+    with open(clean_file_path, 'w') as f:
+        f.write('\n'.join(new_sents))
 
-def web_scraper():
-    pass
-
-def preprocessing():
-    pass
-
-def important_terms():
-    pass
-
+def important_terms(count, dir_path):
+    
+    def preprocessing(doc):
+        doc = doc.lower()                                               # lower case text
+        doc = re.sub(r'[^\w\s]', ' ', doc)                              # remove punctuation
+        
+        stop_words = stopwords.words('english')
+        tokens = word_tokenize(doc)                                     # tokenize document
+        tokens = [token for token in tokens if token not in stop_words] # remove stop words
+        
+        wnl = WordNetLemmatizer()
+        tokens = [wnl.lemmatize(token) for token in tokens]             # lemmatize tokens
+        tokens = [token for token in tokens if len(token) > 3]          # remove words less than 4 letters
+        
+        return tokens
+    
+    def compute_tf(doc_tokens):
+        word_counts = Counter(doc_tokens)
+        return {word: (count / len(doc_tokens)) for word, count in word_counts.items()}
+    
+    def compute_idf(docs, bag_of_words):
+        idfs = dict.fromkeys(bag_of_words, 0)
+        N = len(docs)
+        
+        for word in idfs:
+            for doc, tokens in docs.items():
+                if word in tokens:
+                    idfs[word] += 1
+        
+        for word, count in idfs.items():
+            idfs[word] = math.log(N / count)
+                    
+        return idfs
+    
+    def compute_tfidf(tf, idfs):
+        tfidf = {}
+        for word, val in tf.items():
+            tfidf[word] = val * idfs[word]
+        return tfidf
+        
+    # Create of dictionary of keys of documents and values of tokens of each document
+    docs = {}
+    for filename in sorted(os.listdir(dir_path)):
+        file_path = os.path.join(dir_path, filename)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as f:
+                text = f.read()
+                tokens = preprocessing(text)
+                docs[filename] = tokens
+    
+    # Get vocabulary from all documents
+    bag_of_unique_words = set()
+    for doc, tokens in docs.items():
+        bag_of_unique_words |= set(tokens)
+    
+    # Compute term frequencies for each document    
+    tfs = {}
+    for doc, tokens in docs.items():
+        tfs[doc] = compute_tf(tokens)
+    
+    # Compute inverse document frequencies for entire vocabulary    
+    idfs = compute_idf(docs, bag_of_unique_words)
+    
+    # Compute TF-IDF for each word in each document
+    tf_idfs = {}
+    for doc, tf in tfs.items():
+        tf_idfs[doc] = compute_tfidf(tf, idfs)
+    
+    # Find avg TF-IDF for each word from all documents
+    avg_tf_idfs = dict.fromkeys(bag_of_unique_words, 0)
+    for word in avg_tf_idfs:
+        avd_tf_idf = sum(tf_idf.get(word, 0) for doc, tf_idf in tf_idfs.items()) / len(tf_idfs)
+        avg_tf_idfs[word] = round(avd_tf_idf, 4)
+    
+    # Return top TF-IDF terms
+    top_terms = Counter(avg_tf_idfs).most_common(count)
+    return top_terms
+                
 
 ########
 # MAIN #
 ########
 
 def main():
-    topic = 'volleyball'
-    starter_url = 'https://en.wikipedia.org/wiki/Volleyball'
-    count = 20
+    print('STATUS UPDATES:')
+    print(f'-> Crawling web for links related to {topic}...')
     relevant_urls = web_crawler(topic=topic.lower(), starter_url=starter_url.lower(), count=count)
+    print(f'-> Finished crawling the web!')
     
-    for idx, url in enumerate(relevant_urls):
-        print(f'{idx + 1}. {url}')
+    # Create data directory and relevant sub directories
+    url_file_path = cwd.joinpath('data/relevant_urls.txt')
+    scraped_dir_path = cwd.joinpath('data/scraped')
+    clean_dir_path = cwd.joinpath('data/clean')
+    os.makedirs(clean_dir_path, exist_ok=True)
+    os.makedirs(scraped_dir_path, exist_ok=True)
+    
+    # Write all relevant urls to a file
+    print('-> Wrote relevant urls to text file!')
+    with open(url_file_path, 'w') as f:
+        f.write('\n'.join(f'{i+1}. {url}' for i, url in enumerate(relevant_urls)))
+        
+    # Scrape all relevant urls and put them in their own files
+    print('-> Scraping all pages from relevant urls...')
+    for url in relevant_urls:
+        web_scraper(url)
+    print('-> Scraped!')
+        
+    # Clean all scraped data and put it in separate directory
+    print('-> Cleaning all scraped pages...')
+    for filename in os.listdir(scraped_dir_path):
+        text_prettify(filename)
+    print('-> Cleaned!')
+    
+    # Print top terms from all documents using tf-idf
+    top_terms = important_terms(term_count, clean_dir_path)
+    print()
+    print(f'Top {term_count} Important Terms:')
+    pprint(top_terms)
     
     
 if __name__ == '__main__':
