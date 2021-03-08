@@ -1,5 +1,5 @@
 # Filename:     hw5_sxp170022.py
-# Date:         2/27/21
+# Date:         3/7/21
 # Author:       Sanjeev Penupala
 # Email:        sanjeev.penupala@utdallas.edu
 # Course:       CS 4395.0W1
@@ -22,8 +22,11 @@ from collections import deque, Counter
 import math
 import os
 from pathlib import Path
+import pickle
 from pprint import pprint
 import re
+import sys
+import unicodedata
 
 # Third Party Library Imports
 from bs4 import BeautifulSoup
@@ -33,7 +36,6 @@ from nltk.stem import WordNetLemmatizer
 import requests
 
 
-
 ###########
 # GLOBALS #
 ###########
@@ -41,9 +43,10 @@ import requests
 cwd = Path.cwd()                                            # current working directory
 topic = 'volleyball'                                        # topic to be web crawled for
 starter_url = 'https://en.wikipedia.org/wiki/Volleyball'    # starting url to web crawl
-count = 20                                                  # number of relevant urls to be retrived
-term_count = 25                                             # number of top terms to find in documents
-ordered_nums = iter(range(1, count + 1))
+count = 40                                                  # number of relevant urls to be retrived
+term_count = 40                                             # number of top terms to find in documents
+ordered_nums = iter(range(1, count + 1))                    # to name files by number
+top_10_terms = ['line', 'ball', 'morgan', 'attack', 'court', 'point', 'libero', 'setter', 'fivb', 'championship']
 
 
 #############
@@ -51,7 +54,7 @@ ordered_nums = iter(range(1, count + 1))
 #############
 
 def relevant_url(topic, link):
-    blacklist = ['google', 'pinterest', 'imdb', 'pdf', 'php', 'reddit', 'twitter', 'product']
+    blacklist = ['google', 'pinterest', 'imdb', 'facebook', 'reddit', 'twitter', 'whatsapp', 'pdf', 'php', 'jpg', 'product', 'shop', 'mail', 'video', 'share']
     
     if not link.startswith('http'):
         return False
@@ -59,16 +62,16 @@ def relevant_url(topic, link):
         return False
     if any(b in link for b in blacklist):
         return False
-    if 'wikipedia' in link and not 'en.wikipedia' in link:
+    if 'wikipedia' in link and 'en.wikipedia' not in link:
         return False
     
     return True
- 
+
 def web_crawler(topic, starter_url, count):
     relevant_urls = set()
     urls = deque([starter_url])
     
-    while len(relevant_urls) < count:
+    while len(relevant_urls) < count and urls:
         url = urls.popleft()
         
         # Check if URL is accessible and/or has content
@@ -104,16 +107,20 @@ def web_crawler(topic, starter_url, count):
 
 def web_scraper(url):
     r = requests.get(url)
-    soup = BeautifulSoup(r.content, 'html.parser')
+    soup = BeautifulSoup(r.text, 'lxml')
      
     if not soup.title:
         return
     
-    text, title = soup.get_text(), f'{topic}-{next(ordered_nums)}'
+    page = []
+    for p in soup.find_all('p'):
+        page.append(p.text)
+    
+    title = f'{topic}-{next(ordered_nums)}'
     file_path = cwd.joinpath(f'data/scraped/{title}.txt')
     
     with open(file_path, 'w') as f:
-        f.write(text)
+        f.write('\n'.join(page))
 
 def text_prettify(filename):
     scraped_file_path = cwd.joinpath(f'data/scraped/{filename}')
@@ -203,13 +210,29 @@ def important_terms(count, dir_path):
     # Find avg TF-IDF for each word from all documents
     avg_tf_idfs = dict.fromkeys(bag_of_unique_words, 0)
     for word in avg_tf_idfs:
-        avd_tf_idf = sum(tf_idf.get(word, 0) for doc, tf_idf in tf_idfs.items()) / len(tf_idfs)
+        avd_tf_idf = sum(tf_idf.get(word, 0) for tf_idf in tf_idfs.values()) / len(tf_idfs)
         avg_tf_idfs[word] = round(avd_tf_idf, 4)
     
     # Return top TF-IDF terms
     top_terms = Counter(avg_tf_idfs).most_common(count)
     return top_terms
-                
+
+def create_knowledge_base(terms, dir_path):
+    kb = {term: [] for term in terms}
+    
+    for filename in sorted(os.listdir(dir_path)):
+        file_path = os.path.join(dir_path, filename)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r') as f:
+                for sent in f.readlines():
+                    sent = unicodedata.normalize('NFKD', sent)
+                    sent = sent.strip()
+
+                    for term in kb:
+                        if term in sent.lower():
+                            kb[term].append(sent)
+
+    return kb
 
 ########
 # MAIN #
@@ -217,33 +240,37 @@ def important_terms(count, dir_path):
 
 def main():
     print('STATUS UPDATES:')
-    print(f'-> Crawling web for links related to {topic}...')
-    relevant_urls = web_crawler(topic=topic.lower(), starter_url=starter_url.lower(), count=count)
-    print(f'-> Finished crawling the web!')
-    
     # Create data directory and relevant sub directories
     url_file_path = cwd.joinpath('data/relevant_urls.txt')
     scraped_dir_path = cwd.joinpath('data/scraped')
     clean_dir_path = cwd.joinpath('data/clean')
-    os.makedirs(clean_dir_path, exist_ok=True)
-    os.makedirs(scraped_dir_path, exist_ok=True)
     
-    # Write all relevant urls to a file
-    print('-> Wrote relevant urls to text file!')
-    with open(url_file_path, 'w') as f:
-        f.write('\n'.join(f'{i+1}. {url}' for i, url in enumerate(relevant_urls)))
+    if os.path.isdir(cwd.joinpath('data')):
+        print('-> Knowledge base is already compiled. Delete "data/" directory for new compilation.')
+    else:
+        print(f'-> Crawling web for links related to {topic}...')
+        relevant_urls = web_crawler(topic=topic.lower(), starter_url=starter_url.lower(), count=count)
+        print(f'-> Finished crawling the web!')
         
-    # Scrape all relevant urls and put them in their own files
-    print('-> Scraping all pages from relevant urls...')
-    for url in relevant_urls:
-        web_scraper(url)
-    print('-> Scraped!')
+        os.makedirs(clean_dir_path, exist_ok=True)
+        os.makedirs(scraped_dir_path, exist_ok=True)
         
-    # Clean all scraped data and put it in separate directory
-    print('-> Cleaning all scraped pages...')
-    for filename in os.listdir(scraped_dir_path):
-        text_prettify(filename)
-    print('-> Cleaned!')
+        # Write all relevant urls to a file
+        print('-> Wrote relevant urls to text file!')
+        with open(url_file_path, 'w') as f:
+            f.write('\n'.join(f'{i+1}. {url}' for i, url in enumerate(relevant_urls)))
+            
+        # Scrape all relevant urls and put them in their own files
+        print('-> Scraping all pages from relevant urls...')
+        for url in relevant_urls:
+            web_scraper(url)
+        print('-> Scraped!')
+            
+        # Clean all scraped data and put it in separate directory
+        print('-> Cleaning all scraped pages...')
+        for filename in os.listdir(scraped_dir_path):
+            text_prettify(filename)
+        print('-> Cleaned!')
     
     # Print top terms from all documents using tf-idf
     top_terms = important_terms(term_count, clean_dir_path)
@@ -251,6 +278,20 @@ def main():
     print(f'Top {term_count} Important Terms:')
     pprint(top_terms)
     
+    # Create knowledge base from top 10 terms (chosen manually)
+    # Knowledge Base Format:
+    #     kb = {
+    #     '<term>': ['fact or sentence', 'fact or sentence', ...],
+    #     '<term2>': ['fact or sentence', 'fact or sentence', ...]
+    #     }
+    kb = create_knowledge_base(top_10_terms, clean_dir_path)
+    kb_file_path = cwd.joinpath('data/knowledge_base.pickle')
+    pickle.dump(kb, open(kb_file_path, 'wb'))
+    
+    example_kb = {term: facts[:1] for term, facts in kb.items()}
+    print()
+    print('Example Structure of Knowledge Base:')
+    pprint(example_kb)
     
 if __name__ == '__main__':
     main()
