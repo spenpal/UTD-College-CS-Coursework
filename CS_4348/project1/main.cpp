@@ -111,17 +111,23 @@ vector<string> divideString(string str, int n)
         int parts_index = 0;
         for(int i = str_size - 1; i >= 0; i--)
         {
-            parts[parts_index++] = str[i];
+            string partial_num = str[i] + "";
+            for(int z = 0; z < parts_index; z++)
+                partial_num += "0";
+            parts[parts_index++] = partial_num;
         }
     }
     else if (str_size % n != 0) // Not evenly divisible
     {
-        int part_size = str_size / n;
+        int part_size = str_size / n + 1;
         int parts_index = 0;
         for (int i = str_size; i > 0; i -= part_size)
         {
-            int start_index = max(i - part_size, 0), end_index = i; 
-            parts[parts_index++] = str.substr(start_index, end_index);
+            int start_index = max(i - part_size, 0), end_index = i;
+            string partial_num = str.substr(start_index, end_index);
+            for(int z = 0; z < parts_index * part_size; z++)
+                partial_num += "0"; 
+            parts[parts_index++] = partial_num;
         }
     }
     else // Evenly divisible
@@ -130,8 +136,11 @@ vector<string> divideString(string str, int n)
         int parts_index = 0;
         for (int i = str_size; i > 0; i -= part_size)
         {
-            int start_index = (i - part_size), end_index = i; 
-            parts[parts_index++] = str.substr(start_index, end_index);
+            int start_index = (i - part_size), end_index = i;
+            string partial_num = str.substr(start_index, end_index);
+            for(int z = 0; z < parts_index * part_size; z++)
+                partial_num += "0";
+            parts[parts_index++] = partial_num;
         }
     }
     
