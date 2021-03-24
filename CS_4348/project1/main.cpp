@@ -1,5 +1,6 @@
 // C++ program to multiply two numbers represented
 // as strings.
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -9,7 +10,54 @@
 using namespace std;
 
 // Global Variables
-vector<int> results;
+vector<string> results;
+
+string findSum(string str1, string str2)
+{
+    // Before proceeding further, make sure length
+    // of str2 is larger.
+    if (str1.length() > str2.length())
+        swap(str1, str2);
+  
+    // Take an empty string for storing result
+    string str = "";
+  
+    // Calculate length of both string
+    int n1 = str1.length(), n2 = str2.length();
+  
+    // Reverse both of strings
+    reverse(str1.begin(), str1.end());
+    reverse(str2.begin(), str2.end());
+  
+    int carry = 0;
+    for (int i=0; i<n1; i++)
+    {
+        // Do school mathematics, compute sum of
+        // current digits and carry
+        int sum = ((str1[i]-'0')+(str2[i]-'0')+carry);
+        str.push_back(sum%10 + '0');
+  
+        // Calculate carry for next step
+        carry = sum/10;
+    }
+  
+    // Add remaining digits of larger number
+    for (int i=n1; i<n2; i++)
+    {
+        int sum = ((str2[i]-'0')+carry);
+        str.push_back(sum%10 + '0');
+        carry = sum/10;
+    }
+  
+    // Add remaining carry
+    if (carry)
+        str.push_back(carry+'0');
+  
+    // reverse resultant string
+    reverse(str.begin(), str.end());
+  
+    return str;
+}
 
 // Multiplies str1 and str2, and prints result.
 void multiply(string num1, string num2)
@@ -18,7 +66,7 @@ void multiply(string num1, string num2)
     int len2 = num2.size();
     if (len1 == 0 || len2 == 0)
     {
-        return results.push_back(0);
+        return results.push_back("0");
     }
         
     // will keep the result number in vector
@@ -82,19 +130,16 @@ void multiply(string num1, string num2)
     // one of num1 or num2 were '0'
     if (i == -1)
     {
-        return results.push_back(0);
+        return results.push_back("0");
     }
         
     // generate the result string
-    long s = 0;
-    int index = 0, multipler = 1;
-    while (index <= i)
+    string s = "";
+    while (i >= 0)
     {
-        s += result[index] * multipler;
-        multipler *= 10;
-        index++;
+        s += std::to_string(result[i--]);
     }
-        
+         
     return results.push_back(s);
 }
 
@@ -119,14 +164,16 @@ vector<string> divideString(string str, int n)
     }
     else if (str_size % n != 0) // Not evenly divisible
     {
-        int part_size = str_size / n + 1;
+        int part_size = (str_size / n) + 1;
         int parts_index = 0;
         for (int i = str_size; i > 0; i -= part_size)
         {
             int start_index = max(i - part_size, 0), end_index = i;
-            string partial_num = str.substr(start_index, end_index);
+            string partial_num = start_index != 0 ? str.substr(start_index, part_size) : str.substr(start_index, end_index);
+
+            cout << start_index << " " << end_index << " " << partial_num << endl;
             for(int z = 0; z < parts_index * part_size; z++)
-                partial_num += "0"; 
+                partial_num += "0";
             parts[parts_index++] = partial_num;
         }
     }
@@ -190,9 +237,10 @@ int main()
 
     vector<thread> threads;
     vector<string> parts = divideString(str1, thread_count); // split biggest string into n thread parts
-
+    cout << str1 << "\n";
     for(auto part: parts)
     {
+        // cout << part << "\n";
         threads.push_back(thread(multiply, str2, part));
     }
 
@@ -203,11 +251,10 @@ int main()
     }
 
     // Add up all numbers in results vector
-    long sum = 0;
+    string sum = "";
     for (auto result : results)
     {
-        cout << result << "\n";
-        sum += result;
+        sum = findSum(sum, result);
     }
 
     // print long number in output file
