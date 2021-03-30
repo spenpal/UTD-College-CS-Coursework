@@ -14,7 +14,7 @@
 ###########
 
 # Standard Library Imports
-from collections import namedtuple
+from collections import Counter, namedtuple
 import operator
 from pprint import pprint
 import sys
@@ -78,16 +78,78 @@ def print_assignment(assignment, truth):
     printable = []
     for var, val in assignment.items():
         printable.append(f'{var}={val}')
-    return f'{",".join(printable)}\t{"solution" if truth else "failure"}'
+    branch = f'{", ".join(printable)}\t{"solution" if truth else "failure"}'
+    print(branch)
 
+def remove_constraints(vars_, cons):
+    for var in vars_:
+        cons.pop(var, None)
+        
+        for var, cons_lst in cons.items():
+            for con in cons_lst:
+                if con.var2 == var:
+                    cons_lst.remove(con)
+                   
+    return cons
+            
 def select_unassigned_variable(assignment, csp):
-    pass
+    vars_ = csp.get('vars')
+    un_vars = set(vars_) - set(assignment)
+    most_con_var, min_dom_size = [], float('inf')
     
-def order_domain_values(var, assingment, csp):
-    pass
+    # Find most constrained variable
+    for un_var in un_vars:
+        if len(vars_.get(un_var, 0)) < min_dom_size: # TODO: Remove 0 from .get() statement, if u think so
+            most_con_var = [un_var]
+            min_dom_size = len(vars_.get(un_var, 0))
+        elif len(vars_.get(un_var, 0)) == min_dom_size:
+            most_con_var.append(un_var)
 
-def check_consistency(value, assignment, csp):
-    pass
+    # If there is only one most constrained variable
+    if len(most_con_var) == 1:
+        return most_con_var[0]
+    else:
+        # Use most constraining variable heuristic
+        most_cons_var, num_of_cons = [], float('-inf')
+        cons = remove_constraints(set(assignment), csp.get('cons').copy())
+        
+        for var in most_con_var:
+            if len(cons.get(var, 0)) > num_of_cons:
+                most_cons_var = [var]
+                num_of_cons = len(cons.get(var, 0))
+            elif len(cons.get(var, 0)) == num_of_cons:
+                most_cons_var.append(var)
+        
+    # If there is only one most constraining variable
+    if len(most_cons_var) == 1:
+        return most_cons_var[0]
+    else:
+        # break ties in sorted order
+        return sorted(most_cons_var)[0]
+                
+def order_domain_values(var, assignment, csp):
+    vars_ = csp.get('vars')
+    cons = remove_constraints(set(assignment), csp.get('cons').copy())
+    lcv = Counter()
+    
+    for val1 in vars_.get(var):
+        lcv_pts = 0
+        for con in cons.get(var):
+            for val2 in vars_.get(con.var2):
+                lcv_pts += con.op(val1, val2)
+        lcv[val1] = lcv_pts
+       
+    return (v[0] for v in lcv.most_common())
+
+def check_consistency(var, val, assignment, csp):
+    cons = csp.get('cons')
+    
+    for con in cons.get(var):
+        if con.var2 in assignment:
+            if not con.op(val, assignment.get(con.var2)):
+                return False
+        
+    return True
     
 def backtracking_search(csp):
     return recursive_backtracking({}, csp)
@@ -101,17 +163,17 @@ def recursive_backtracking(assignment, csp):
     var = select_unassigned_variable(assignment, csp)
     
     # order each variable's value by least constraining value heuristic
-    for value in order_domain_values(var, assignment, csp):
+    for val in order_domain_values(var, assignment, csp):
         # If value fits the csp's constraints
-        if check_consistency(value, assignment, csp):
-            assignment[var] = value                             # add value to current assignment
-            result = recursive_backtracking(assingment, csp)    # repeat backtracking
+        if check_consistency(var, val, assignment, csp):
+            assignment[var] = val                               # add value to current assignment
+            result = recursive_backtracking(assignment, csp)    # repeat backtracking
             if result:
                 return result                                   # return solution
             del assignment[var]                                 # delete variable from assignment
         else:
             # Print failure for current assignment
-            assignment[var] = value
+            assignment[var] = val
             print_assignment(assignment, False)
             del assignment[var]
             
