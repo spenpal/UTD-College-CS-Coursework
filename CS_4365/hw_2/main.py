@@ -73,13 +73,50 @@ def parse_con(path):
                 con_dict[con2.var1] = [con2]
                 
     return con_dict
-            
 
+def print_assignment(assignment, truth):
+    printable = []
+    for var, val in assignment.items():
+        printable.append(f'{var}={val}')
+    return f'{",".join(printable)}\t{"solution" if truth else "failure"}'
+
+def select_unassigned_variable(assignment, csp):
+    pass
+    
+def order_domain_values(var, assingment, csp):
+    pass
+
+def check_consistency(value, assignment, csp):
+    pass
+    
 def backtracking_search(csp):
     return recursive_backtracking({}, csp)
 
 def recursive_backtracking(assignment, csp):
-    pass
+    # if assignment is complete
+    if len(assignment) == len(csp.get('vars')):
+        return assignment
+    
+    # select an unassigned variable using most constrained variable heuristic
+    var = select_unassigned_variable(assignment, csp)
+    
+    # order each variable's value by least constraining value heuristic
+    for value in order_domain_values(var, assignment, csp):
+        # If value fits the csp's constraints
+        if check_consistency(value, assignment, csp):
+            assignment[var] = value                             # add value to current assignment
+            result = recursive_backtracking(assingment, csp)    # repeat backtracking
+            if result:
+                return result                                   # return solution
+            del assignment[var]                                 # delete variable from assignment
+        else:
+            # Print failure for current assignment
+            assignment[var] = value
+            print_assignment(assignment, False)
+            del assignment[var]
+            
+    return None
+
 
 ########
 # MAIN #
@@ -90,14 +127,18 @@ def main():
     if len(sys.argv) != 4:
         sys.exit("Need exactly 3 arguments: path to .var, path to .con, and consistency enforcing procedure")
         
+    # Unpack command line args
     var_path, con_path, prod = sys.argv[1], sys.argv[2], sys.argv[3]
     
+    # Parse .var and .con files and convert them into dicts
     var_dict = parse_var(var_path)
-    pprint(var_dict)
-    
     con_dict = parse_con(con_path)
-    pprint(con_dict)
     
-
+    # Call backtracking and find a solution
+    csp = {'vars': var_dict, 'cons': con_dict}
+    assignment = backtracking_search(csp)
+    if assignment:
+        print_assignment(assignment, True)
+    
 if __name__ == '__main__':
     main()
