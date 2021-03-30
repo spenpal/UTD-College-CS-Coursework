@@ -1,0 +1,103 @@
+# Filename:     main.py
+# Date:         3/29/21
+# Authors:      Sanjeev Penupala, Sanjana Sivakumar
+# Email:        sanjeev.penupala@utdallas.edu, sxs170002@utdallas.edu
+# Course:       CS 4365.001
+#
+# Description:
+#
+#       Implement a CSP solver that takes exactly three arguments from the command line.
+#
+
+###########
+# IMPORTS #
+###########
+
+# Standard Library Imports
+from collections import namedtuple
+import operator
+from pprint import pprint
+import sys
+
+
+#############
+# FUNCTIONS #
+#############
+def parse_var(path):
+    var_dict = {}
+    
+    with open(path, 'r') as f:
+        for line in f:
+            var_name = line[0] # get variable name
+            var_vals = line[line.find(':') + 1:].split() # put all values into a list
+            var_vals = [int(var_val) if var_val.isnumeric() else var_val for var_val in var_vals] # convert values to integers
+            var_dict[var_name] = var_vals # store variable name and values in dictionary
+            
+    return var_dict
+
+def parse_con(path):
+    Constraint = namedtuple('Constraint', 'var1 var2 op')
+    con_dict = {} # stores all constraints in program readable format
+    op_func = {
+        '=': operator.eq,
+        '!': operator.ne,
+        '>': operator.gt,
+        '<': operator.lt
+    } # maps string operator to operator function
+    switch_op = {
+        '=': '=',
+        '!': '!',
+        '<': '>',
+        '>': '<'
+    } # new operator for flipping constraint
+    
+    with open(path,'r') as f:
+        for line in f:
+            con = line.split() # split up constraint
+            var1, op, var2 = con[0], con[1], con[2]
+            
+            # Put constraint in namedtuple format
+            con1 = Constraint(var1, var2, op_func[op])
+            con2 = Constraint(var2, var1, op_func[switch_op[op]])
+            
+            # Add constraint in OG form to dict
+            if con1.var1 in con_dict:
+                con_dict[con1.var1].append(con1)
+            else:
+                con_dict[con1.var1] = [con1]
+            
+            # Add flipped constraint to dict
+            if con2.var1 in con_dict:
+                con_dict[con2.var1].append(con2)
+            else:
+                con_dict[con2.var1] = [con2]
+                
+    return con_dict
+            
+
+def backtracking_search(csp):
+    return recursive_backtracking({}, csp)
+
+def recursive_backtracking(assignment, csp):
+    pass
+
+########
+# MAIN #
+########
+
+def main():
+    # Read in args from command line
+    if len(sys.argv) != 4:
+        sys.exit("Need exactly 3 arguments: path to .var, path to .con, and consistency enforcing procedure")
+        
+    var_path, con_path, prod = sys.argv[1], sys.argv[2], sys.argv[3]
+    
+    var_dict = parse_var(var_path)
+    pprint(var_dict)
+    
+    con_dict = parse_con(con_path)
+    pprint(con_dict)
+    
+
+if __name__ == '__main__':
+    main()
