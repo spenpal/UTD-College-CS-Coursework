@@ -15,14 +15,17 @@
 
 # Standard Library Imports
 from collections import Counter, namedtuple
+import copy
 import operator
 from pprint import pprint
 import sys
 
+branch_num = 1
 
 #############
 # FUNCTIONS #
 #############
+
 def parse_var(path):
     var_dict = {}
     
@@ -75,19 +78,21 @@ def parse_con(path):
     return con_dict
 
 def print_assignment(assignment, truth):
+    global branch_num
     printable = []
     for var, val in assignment.items():
         printable.append(f'{var}={val}')
-    branch = f'{", ".join(printable)}\t{"solution" if truth else "failure"}'
+    branch = f'{branch_num}. {", ".join(printable)}  {"solution" if truth else "failure"}'
+    branch_num += 1
     print(branch)
 
 def remove_constraints(vars_, cons):
     for var in vars_:
         cons.pop(var, None)
-        
-        for var, cons_lst in cons.items():
+
+        for _, cons_lst in cons.items():
             for con in cons_lst:
-                if con.var2 == var:
+                if var == con.var2:
                     cons_lst.remove(con)
                    
     return cons
@@ -111,7 +116,7 @@ def select_unassigned_variable(assignment, csp):
     else:
         # Use most constraining variable heuristic
         most_cons_var, num_of_cons = [], float('-inf')
-        cons = remove_constraints(set(assignment), csp.get('cons').copy())
+        cons = remove_constraints(set(assignment), copy.deepcopy(csp.get('cons')))
         
         for var in most_con_var:
             if len(cons.get(var, 0)) > num_of_cons:
@@ -129,36 +134,57 @@ def select_unassigned_variable(assignment, csp):
                 
 def order_domain_values(var, assignment, csp):
     vars_ = csp.get('vars')
-    cons = remove_constraints(set(assignment), csp.get('cons').copy())
-    lcv = Counter()
+    cons = remove_constraints(set(assignment), copy.deepcopy(csp.get('cons')))
+    lcv = Counter(dict.fromkeys(vars_.get(var), 0))
     
-    for val1 in vars_.get(var):
+    for val1 in vars_.get(var, ()):
         lcv_pts = 0
-        for con in cons.get(var):
+        for con in cons.get(var, ()):
             for val2 in vars_.get(con.var2):
                 lcv_pts += con.op(val1, val2)
         lcv[val1] = lcv_pts
-       
+    
     return (v[0] for v in lcv.most_common())
 
-def check_consistency(var, val, assignment, csp):
-    cons = csp.get('cons')
+def forward_check(var, val, assignment, csp):
+    csp = copy.deepcopy(csp)
+    vars_, cons = csp.get('vars'), remove_constraints(set(assignment), copy.deepcopy(csp.get('cons')))
     
-    for con in cons.get(var):
+    for con in cons.get(var, ()):
+        var2 = vars_.get(con.var2)
+        for i in range(len(var2) - 1, -1, -1):
+            val2 = var2[i]
+            if not con.op(val, val2):
+                var2.remove(val2)
+    
+    return csp
+    
+def check_consistency(var, val, assignment, csp):
+    vars_, cons = csp.get('vars'), csp.get('cons')
+    
+    # Check if any constraints are violated
+    for con in cons.get(var, ()):
         if con.var2 in assignment:
             if not con.op(val, assignment.get(con.var2)):
                 return False
-        
+    
+    # Check if any domains are empty
+    if any(len(vals) == 0 for vals in vars_.values()):
+        return False
+       
     return True
     
-def backtracking_search(csp):
-    return recursive_backtracking({}, csp)
+def backtracking_search(csp, prod):
+    if prod == 'fc':
+        return recursive_backtracking_fc({}, csp)
+    else:
+        return recursive_backtracking({}, csp)
 
 def recursive_backtracking(assignment, csp):
     # if assignment is complete
     if len(assignment) == len(csp.get('vars')):
         return assignment
-    
+
     # select an unassigned variable using most constrained variable heuristic
     var = select_unassigned_variable(assignment, csp)
     
@@ -179,6 +205,31 @@ def recursive_backtracking(assignment, csp):
             
     return None
 
+def recursive_backtracking_fc(assignment, csp):
+    # if assignment is complete
+    if len(assignment) == len(csp.get('vars')):
+        return assignment
+
+    # select an unassigned variable using most constrained variable heuristic
+    var = select_unassigned_variable(assignment, csp)
+    
+    # order each variable's value by least constraining value heuristic
+    for val in order_domain_values(var, assignment, csp):
+        # If value fits the csp's constraints
+        new_csp = forward_check(var, val, assignment, csp)
+        if check_consistency(var, val, assignment, new_csp):
+            assignment[var] = val                                       # add value to current assignment
+            result = recursive_backtracking_fc(assignment, new_csp)     # repeat backtracking
+            if result:
+                return result                                           # return solution
+            del assignment[var]                                         # delete variable from assignment
+        else:
+            # Print failure for current assignment
+            assignment[var] = val
+            print_assignment(assignment, False)
+            del assignment[var]
+            
+    return None
 
 ########
 # MAIN #
@@ -196,9 +247,13 @@ def main():
     var_dict = parse_var(var_path)
     con_dict = parse_con(con_path)
     
+    # For formatting branches
+    global width
+    width = len(var_dict) * 5 - 2
+    
     # Call backtracking and find a solution
     csp = {'vars': var_dict, 'cons': con_dict}
-    assignment = backtracking_search(csp)
+    assignment = backtracking_search(csp, prod)
     if assignment:
         print_assignment(assignment, True)
     
