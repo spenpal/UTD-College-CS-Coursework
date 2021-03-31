@@ -184,7 +184,7 @@ def check_consistency(var, val, assignment, csp):
 def backtracking_search(csp, prod):
     if prod == 'fc': # forward checking
         return recursive_backtracking_fc({}, csp)
-    else:
+    else: # regular backtracking
         return recursive_backtracking({}, csp)
 
 def recursive_backtracking(assignment, csp):
