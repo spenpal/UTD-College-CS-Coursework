@@ -247,10 +247,6 @@ def main():
     var_dict = parse_var(var_path)
     con_dict = parse_con(con_path)
     
-    # For formatting branches
-    global width
-    width = len(var_dict) * 5 - 2
-    
     # Call backtracking and find a solution
     csp = {'vars': var_dict, 'cons': con_dict}
     assignment = backtracking_search(csp, prod)
