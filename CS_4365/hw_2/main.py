@@ -1,5 +1,5 @@
 # Filename:     main.py
-# Date:         3/29/21
+# Date:         3/30/21
 # Authors:      Sanjeev Penupala, Sanjana Sivakumar
 # Email:        sanjeev.penupala@utdallas.edu, sxs170002@utdallas.edu
 # Course:       CS 4365.001
@@ -31,10 +31,13 @@ def parse_var(path):
     
     with open(path, 'r') as f:
         for line in f:
-            var_name = line[0] # get variable name
-            var_vals = line[line.find(':') + 1:].split() # put all values into a list
-            var_vals = [int(var_val) if var_val.isnumeric() else var_val for var_val in var_vals] # convert values to integers
-            var_dict[var_name] = var_vals # store variable name and values in dictionary
+            var = line[0] # get variable name
+            vals = line[line.find(':') + 1:].split() # put all values into a list
+            try:
+                vals = [int(val) for val in vals] # convert values to integers
+            except:
+                sys.exit('One or more values are not valid integers')
+            var_dict[var] = vals # store variable name and values in dictionary
             
     return var_dict
 
@@ -88,36 +91,39 @@ def print_assignment(assignment, truth):
 
 def remove_constraints(vars_, cons):
     for var in vars_:
-        cons.pop(var, None)
+        cons.pop(var, None) # remove assigned variable from list of constraints
 
         for _, cons_lst in cons.items():
-            for con in cons_lst:
-                if var == con.var2:
+            for i in range(len(cons_lst) - 1, -1, -1):
+                con = cons_lst[i]
+                if var == con.var2: # if you see assigned variable in other constraints, remove that constraint as well
                     cons_lst.remove(con)
                    
     return cons
             
 def select_unassigned_variable(assignment, csp):
     vars_ = csp.get('vars')
-    un_vars = set(vars_) - set(assignment)
+    un_vars = set(vars_) - set(assignment) # get all unassigned variables
     most_con_var, min_dom_size = [], float('inf')
     
-    # Find most constrained variable
+    # Find most constrained variable(s)
     for un_var in un_vars:
-        if len(vars_.get(un_var, 0)) < min_dom_size: # TODO: Remove 0 from .get() statement, if u think so
+        if len(vars_.get(un_var, 0)) < min_dom_size:
             most_con_var = [un_var]
             min_dom_size = len(vars_.get(un_var, 0))
         elif len(vars_.get(un_var, 0)) == min_dom_size:
             most_con_var.append(un_var)
 
-    # If there is only one most constrained variable
+    # If there is only one most constrained variable, return that
     if len(most_con_var) == 1:
         return most_con_var[0]
     else:
         # Use most constraining variable heuristic
         most_cons_var, num_of_cons = [], float('-inf')
+        # Get rid of constraints that have assigned variables in them
         cons = remove_constraints(set(assignment), copy.deepcopy(csp.get('cons')))
         
+        # Find most constraining variable(s)
         for var in most_con_var:
             if len(cons.get(var, 0)) > num_of_cons:
                 most_cons_var = [var]
@@ -125,26 +131,27 @@ def select_unassigned_variable(assignment, csp):
             elif len(cons.get(var, 0)) == num_of_cons:
                 most_cons_var.append(var)
         
-    # If there is only one most constraining variable
+    # If there is only one most constraining variable, return that
     if len(most_cons_var) == 1:
         return most_cons_var[0]
     else:
-        # break ties in sorted order
+        # break ties in sorted order (alphabetical order)
         return sorted(most_cons_var)[0]
                 
 def order_domain_values(var, assignment, csp):
     vars_ = csp.get('vars')
     cons = remove_constraints(set(assignment), copy.deepcopy(csp.get('cons')))
-    lcv = Counter(dict.fromkeys(vars_.get(var), 0))
+    lcv = dict.fromkeys(vars_.get(var), 0) # pre-populate dictionary with var's values
     
     for val1 in vars_.get(var, ()):
         lcv_pts = 0
         for con in cons.get(var, ()):
             for val2 in vars_.get(con.var2):
-                lcv_pts += con.op(val1, val2)
-        lcv[val1] = lcv_pts
+                lcv_pts += con.op(val1, val2) # if operation returns true, add one to total lcv pts
+        lcv[val1] = lcv_pts # store lcv pts for a certain value
     
-    return (v[0] for v in lcv.most_common())
+    # return least value with highest lcv pts (sorted order)
+    return sorted(lcv.items(), key=lambda x: (-x[1], x[0]))
 
 def forward_check(var, val, assignment, csp):
     csp = copy.deepcopy(csp)
@@ -154,7 +161,7 @@ def forward_check(var, val, assignment, csp):
         var2 = vars_.get(con.var2)
         for i in range(len(var2) - 1, -1, -1):
             val2 = var2[i]
-            if not con.op(val, val2):
+            if not con.op(val, val2): # if values between variables are violated, remove from domain
                 var2.remove(val2)
     
     return csp
@@ -175,7 +182,7 @@ def check_consistency(var, val, assignment, csp):
     return True
     
 def backtracking_search(csp, prod):
-    if prod == 'fc':
+    if prod == 'fc': # forward checking
         return recursive_backtracking_fc({}, csp)
     else:
         return recursive_backtracking({}, csp)
