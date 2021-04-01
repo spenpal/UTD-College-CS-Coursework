@@ -150,7 +150,8 @@ def order_domain_values(var, assignment, csp):
         lcv[val1] = lcv_pts # store lcv pts for a certain value
     
     # return least value with highest lcv pts (sorted order)
-    return sorted(lcv.items(), key=lambda x: (-x[1], x[0]))
+    for v in sorted(lcv.items(), key=lambda x: (-x[1], x[0])):
+        yield v[0]
 
 def forward_check(var, val, assignment, csp):
     csp = copy.deepcopy(csp)
