@@ -17,7 +17,6 @@
 from collections import Counter, namedtuple
 import copy
 import operator
-from pprint import pprint
 import sys
 
 branch_num = 1
