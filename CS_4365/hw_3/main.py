@@ -15,7 +15,6 @@
 
 # Standard Library Imports
 from collections import namedtuple
-from pprint import pprint
 import sys
 
 Clause = namedtuple('Clause', 'literals resolution')
