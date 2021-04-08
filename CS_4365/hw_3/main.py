@@ -30,25 +30,16 @@ def flip(literal):
 def parse_kb(file_path):
     with open(file_path, 'r', encoding='utf-8') as f:
         clauses = f.readlines()
-        
+        clauses = [clause.strip() for clause in clauses]
+    
     clauses = [clause.split() for clause in clauses]
     re_test_clause = [[flip(literal)] for literal in clauses[-1]]
     del clauses[-1]
     clauses.extend(re_test_clause)
-    clauses = [Clause(clause, None) for clause in clauses]
     
-    return clauses
-
-def duplicate_clause(clause, kb):
+    kb = {tuple(sorted(clause)): Clause(clause, None) for clause in clauses}
     
-    def logical_equivalence(c1, c2):
-        return set(c1) == set(c2)
-    
-    for kb_clause in kb:
-        if logical_equivalence(clause, kb_clause.literals):
-            return True
-        
-    return False
+    return kb
 
 def tautology(clause):
     lit_idx = {}
@@ -79,28 +70,30 @@ def resolve(c1, c2):
     return None
         
 def resolution_prod(kb):
-    for i, _ in enumerate(kb):
-        print(i)
+    kb_lst = list(kb.items())
+    for i, _ in enumerate(kb_lst):
         for j in range(i):
-            clause_i, clause_j = kb[i], kb[j]
+            clause_i, clause_j = kb_lst[i][1], kb_lst[j][1]
             new_clause = resolve(clause_i.literals, clause_j.literals)
             
             if new_clause:
                 new_clause = remove_repeats(new_clause)
-                if not (duplicate_clause(new_clause, kb) or tautology(new_clause)):
+                sorted_clause = tuple(sorted(new_clause))
+                if not (sorted_clause in kb or tautology(new_clause)):
                     resolution_nums = (i+1, j+1) if i >= j else (j+1, i+1)
                     new_clause = Clause(new_clause, resolution_nums)
-                    kb.append(new_clause)
+                    kb[sorted_clause] = new_clause
+                    kb_lst.append((sorted_clause, new_clause))
             elif new_clause == False:
                 resolution_nums = (i+1, j+1) if i >= j else (j+1, i+1)
                 new_clause = Clause('Contradiction', resolution_nums)
-                kb.append(new_clause)
+                kb['Contradiction'] = new_clause
                 return True
     
     return False
                 
 def print_kb(kb):
-    for idx, clause in enumerate(kb):
+    for idx, clause in enumerate(kb.values()):
         printable = []
         printable.append(f'{idx + 1}.')
         
