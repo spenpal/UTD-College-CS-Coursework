@@ -20,7 +20,7 @@
 
 %%
 
-[ \t\r]+			   { /* eat up whitespace */ }
+[ \t\r]+			                     { /* eat up whitespace */ }
 ","                                { return COMMATOKEN; }
 "-"                                { return DASHTOKEN; }
 "\n"                               { return EOLTOKEN; }
