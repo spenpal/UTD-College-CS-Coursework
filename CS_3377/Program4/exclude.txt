@@ -1,0 +1,6 @@
+enum.h
+input.txt
+LexExample
+LexExample.tar.gz
+Makefile~
+exclude.txt
