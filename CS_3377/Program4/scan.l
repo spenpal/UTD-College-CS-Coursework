@@ -15,7 +15,7 @@
 
 /* C++ Program In Lex File */
 %{
-  #include "y.tab.h" 
+  #include "y.tab.h"
 %}
 
 %%

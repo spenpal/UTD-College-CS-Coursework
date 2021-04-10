@@ -45,40 +45,40 @@ int main(int argc, char *argv[])
       switch(token)
       {       
         case COMMATOKEN:
-	  printf("COMMATOKEN token (%d)", token);
-	  break;
-	case DASHTOKEN:
-	  printf("DASHTOKEN token (%d)", token);
-	  break;
-        case EOLTOKEN:
-	  printf("EOLTOKEN token (%d)", token);
-	  break;
-	case HASHTOKEN:
-  	  printf("HASHTOKEN token (%d)", token);
+          printf("COMMATOKEN token (%d)", token);
           break;
-	case JRTOKEN:
-	  printf("JRTOKEN token (%s)", yytext);
-	  break;
-	case SRTOKEN:
-	  printf("SRTOKEN token (%s)", yytext);
-	  break;
-	case IDENTIFIERTOKEN:
-	  printf("IDENTIFIERTOKEN token (%s)", yytext);
-	  break;
-	case INTTOKEN:
-	  printf("INTTOKEN token (%s)", yytext);
-	  break;
-	case ROMANTOKEN:
-	  printf("ROMANTOKEN token (%d)", token);
-	  break;
+        case DASHTOKEN:
+          printf("DASHTOKEN token (%d)", token);
+          break;
+        case EOLTOKEN:
+          printf("EOLTOKEN token (%d)", token);
+          break;
+        case HASHTOKEN:
+            printf("HASHTOKEN token (%d)", token);
+            break;
+        case JRTOKEN:
+          printf("JRTOKEN token (%s)", yytext);
+          break;
+        case SRTOKEN:
+          printf("SRTOKEN token (%s)", yytext);
+          break;
+        case IDENTIFIERTOKEN:
+          printf("IDENTIFIERTOKEN token (%s)", yytext);
+          break;
+        case INTTOKEN:
+          printf("INTTOKEN token (%s)", yytext);
+          break;
+        case ROMANTOKEN:
+          printf("ROMANTOKEN token (%d)", token);
+          break;
         case NAMETOKEN:
-	  printf("NAMETOKEN token (%s)", yytext);
-	  break;
+          printf("NAMETOKEN token (%s)", yytext);
+          break;
         case NAME_INITIAL_TOKEN:
-	  printf("NAME_INITIAL_TOKEN token (%s)", yytext);
-	  break;
-	default:
-	  printf("UNKNOWN");
+          printf("NAME_INITIAL_TOKEN token (%s)", yytext);
+          break;
+        default:
+          printf("UNKNOWN");
       }
     
       token = yylex();
