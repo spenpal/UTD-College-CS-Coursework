@@ -1,4 +1,4 @@
-# CS_3377_LABS
+# CS_3377_PROGRAMS
 Assignments Completed In "C/C++ Programming in a UNIX Environment" Course
 
 College: The University Of Texas At Dallas\
