@@ -1,0 +1,5 @@
+BEGIN	{colOneSum=0;colFourSum=0}
+
+{colOneSum+=$1; colFourSum+=$4;}
+
+END	{printf "%d %d\n", colOneSum, colFourSum}

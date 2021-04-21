@@ -1,0 +1,7 @@
+bin
+etc
+gawk
+include
+lib
+libexec
+share
