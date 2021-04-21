@@ -1,16 +1,3 @@
-/*
- * Filename:		parse.y
- * Date:		04/03/2020
- * Author:	        Sanjeev Penupala
- * Email:		sxp170022@utdallas.edu
- * Version:		1.0
- * Copyright:		2020, All Rights Reserved
- *
- * Description:
- *
- *	Bison Program
- */
-
 /* C++ Program In Parse File */
 %{
 	#include <stdio.h>
