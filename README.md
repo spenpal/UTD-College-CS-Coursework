@@ -9,6 +9,7 @@ Here is the list of the CS coding courses I have taken here at UTD:
 - CS 3377 (C/C++ Programming in a UNIX Environment)
 - CS 4141 (Digital Systems Laboratory)
 - CS 4337 (Organization of Programming Languages)
+- CS 4348 (Operating Systems)
 - CS 4365 (Artificial Intelligence)
 - CS 4375 (Introduction to Machine Learning)
 - CS 4395 (Human Language Technologies)
