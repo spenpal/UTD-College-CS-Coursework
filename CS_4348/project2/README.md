@@ -5,7 +5,26 @@
 - Gautam Sapre \<GSS170001>
 
 ## How to Run Project
+- First, create a empty disk file.
 ```
-g++ -o main mod-v6.cc
-./main
+g++ -std=c++11 -o v6 mod-v6.cc
+./v6
+```
+
+# Help
+```
+Usage:
+  <command> [arguments]
+
+Commands:
+  openfs <filename>                     Opens up the file that represents the disk drive.
+  initfs <n1> <n2>                      Set unallocated blocks to free (except i-node 1).
+  count-free                            Returns the number of free data blocks and i-nodes available in the system.
+  quit                                  Quits the running V6 program.
+  help                                  Prints the help page.
+    
+Arguments:
+  filename                              A local file where the program is being run that represents the disk drive.
+  n1                                    The file system size in number of blocks.
+  n2                                    The number of blocks devoted to the i-nodes.
 ```
