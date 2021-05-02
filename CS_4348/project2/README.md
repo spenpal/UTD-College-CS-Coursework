@@ -1,8 +1,12 @@
 # Project 2
 
 ## Contributors:
-- Sanjeev Penupala \<SXP170022>
+- Sanjeev Penupala \<SXP170022> 
 - Gautam Sapre \<GSS170001>
+
+## Contributions
+- **Sanjeev** implemented all the commands asked on the instructions.
+- **Gautam** worked on the main method to ensure the user understands how to run commands at runtime of the program, in an intuitive UI. He also worked on refactoring code and ensuring there is consistency in naming conventions.
 
 ## How to Run Project
 - First, create a empty disk file.
