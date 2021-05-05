@@ -6,6 +6,7 @@ Commands:
   initfs <n1> <n2>                      Set unallocated blocks to free (except i-node 1).
   count-free                            Returns the number of free data blocks and i-nodes available in the system.
   quit                                  Quits the running V6 program.
+  help                                  Prints out the help prompt.
     
 Arguments:
   filename                              A local file where the program is being run that represents the disk drive.

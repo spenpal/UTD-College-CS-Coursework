@@ -26,14 +26,16 @@
 #include <unistd.h>
 #include <vector>
 
+using namespace std;
+
 #define BLOCK_SIZE 2048
 #define INODE_SIZE 64
 #define DIR_SIZE 32
 #define FREE_ARRAY_SIZE 250
 
-using namespace std;
-
 int fd = -1;
+int free_data_blocks;
+int free_i_nodes;
 
 // STRUCTS //
 typedef struct 
@@ -97,7 +99,7 @@ commands hashC(string command)
 }
 
 /**
- * Splits a string give a delimter
+ * Splits a string given a delimter
  */
 vector<string> split(const string& s, char delimiter)
 {
@@ -168,18 +170,19 @@ void initfs(int total_blocks, int inode_blocks)
     superBlock.isize = inode_blocks;
     superBlock.fsize = total_blocks;
 
-    int data_blocks = total_blocks - (inode_blocks + 3); // excluding root data block
-    int free_blocks = data_blocks <= FREE_ARRAY_SIZE ? data_blocks : FREE_ARRAY_SIZE; // cap # of free data blocks at array size
-    superBlock.nfree = free_blocks;
-    int first_data_block = inode_blocks + 3;
-    for(int i = 0; i < free_blocks; i++)
-        superBlock.free[i] = first_data_block + i; // add free data blocks to free data block array
+    free_data_blocks = total_blocks - (inode_blocks + 3); // 3 = boot block, super block, and root data block
+    int capped_free_blocks = free_data_blocks <= FREE_ARRAY_SIZE ? free_data_blocks : FREE_ARRAY_SIZE; // cap # of free data blocks at array size
+    superBlock.nfree = capped_free_blocks;
+    int first_free_data_block = inode_blocks + 3;
+    for(int i = 0; i < capped_free_blocks; i++)
+        superBlock.free[i] = first_free_data_block + i; // add free data blocks to free data block array
     
     int total_inodes = (BLOCK_SIZE / INODE_SIZE) * inode_blocks; // find total number of i nodes in the filesystem
-    int free_inodes = total_inodes <= FREE_ARRAY_SIZE ? total_inodes - 1 : FREE_ARRAY_SIZE; // cap # of i-nodes
-    superBlock.ninode = free_inodes;
-    int first_free_inode = 2;
-    for(int i = 0; i < free_inodes; i++)
+    free_i_nodes = total_inodes - 1;
+    int capped_free_inodes = free_i_nodes <= FREE_ARRAY_SIZE ? free_i_nodes : FREE_ARRAY_SIZE; // cap # of i-nodes
+    superBlock.ninode = capped_free_inodes;
+    int first_free_inode = 2; // skip over boot block, super block, and first root i-node
+    for(int i = 0; i < capped_free_inodes; i++)
         superBlock.inode[i] = first_free_inode + i; // add free i-nodes to free i-node array
 
     superBlock.flock = 0;
@@ -217,18 +220,28 @@ void initfs(int total_blocks, int inode_blocks)
     strcpy((char*) root_dir[1].filename, "..");
 
     // Write root directory to disk
-    lseek(fd, (first_data_block-1) * BLOCK_SIZE, SEEK_SET);
+    lseek(fd, (first_free_data_block-1) * BLOCK_SIZE, SEEK_SET);
     write(fd, &root_dir[0], DIR_SIZE);
     lseek(fd, DIR_SIZE, SEEK_CUR);
     write(fd, &root_dir[1], DIR_SIZE);
 
-    // Create empty blocks for all available data blocks
+    // Create empty blocks for all free data blocks
     char emptyBlock[BLOCK_SIZE] = {0};
-    for(int i = 0; i < data_blocks; i++)
+    for(int i = 0; i < free_data_blocks; i++)
     {
-        int blockNum = first_data_block + i;
+        int blockNum = first_free_data_block + i;
         lseek(fd, blockNum * BLOCK_SIZE, SEEK_SET);
         write(fd, &emptyBlock, BLOCK_SIZE);
+    }
+
+    // Create empty i-nodes for all free i-nodes
+    char emptyInode[INODE_SIZE] = {0};
+    lseek(fd, 2 * BLOCK_SIZE, SEEK_SET); // skip over boot block and super block
+    for(int i = 0; i < free_i_nodes; i++)
+    {
+        int inodeNum = first_free_inode + i;
+        lseek(fd, INODE_SIZE, SEEK_CUR);
+        write(fd, &emptyInode, INODE_SIZE);
     }
     
     cout << "Successfully intiialized new V6 file system!";
@@ -236,8 +249,8 @@ void initfs(int total_blocks, int inode_blocks)
 
 void countFree()
 {
-    cout << "Number of Free Datablocks: " << superBlock.nfree << endl;
-    cout << "Number of Free i-nodes: " << superBlock.ninode << endl;
+    cout << "Number of Free Datablocks: " << free_data_blocks << endl;
+    cout << "Number of Free i-nodes: " << free_i_nodes;
 }
 
 // DRIVER CODE //
@@ -273,10 +286,10 @@ int main()
                     cout << "Invalid Number of Arguments!";
                     break;
                 }
-                else if (!fileExists(input[1]))
+                else if (!fileExists(input[1])) // Create filesystem if it doesn't exist
                 {
-                    cout << "Cannot find filesystem!";
-                    break;
+                    ofstream file(input[1]);
+                    file.close();
                 }
                 openfs(input[1]); break;
             case INITFS:
