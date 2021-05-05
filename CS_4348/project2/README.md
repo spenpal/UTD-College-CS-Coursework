@@ -15,6 +15,9 @@ g++ -std=c++11 -o v6 mod-v6.cc
 ./v6
 ```
 
+# Tarball Command
+`tar cvzf sxp170022_gss170001_project.tar.gz mod-v6.cc help.txt README.md`
+
 # Help
 ```
 Usage:
