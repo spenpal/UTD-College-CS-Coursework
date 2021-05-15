@@ -331,11 +331,9 @@ class MixReflexAgent(ReflexCaptureAgent):
   def getFeatures(self, gameState, action):
     successor = self.getSuccessor(gameState, action)
     successorState = successor.getAgentState(self.index)
-    isGhost = not successorState.isPacman
     return self.getFeaturesDefense(gameState, action) if self.getScore(gameState) > 0 else self.getFeaturesOffense(gameState, action)
 
   def getWeights(self, gameState, action):
     successor = self.getSuccessor(gameState, action)
     successorState = successor.getAgentState(self.index)
-    isGhost = not successorState.isPacman
     return self.getWeightsDefense() if self.getScore(gameState) > 0 else self.getWeightsOffense()
