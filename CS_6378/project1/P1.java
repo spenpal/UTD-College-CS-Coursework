@@ -21,16 +21,18 @@ public class P1 {
 
 	/**
 	 * Starts up the socket connection with process P2 as a client.
-	 * 
-	 * @throws IOException
 	 */
-	public void start() throws IOException {
-		System.out.println("Starting client socket...");
-        clientSocket = new Socket(address, port);
-		System.out.println("P1 has been accepted!");
-
-		in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
+	public void start()  {
+        try {
+			System.out.println("Starting client socket...");
+			clientSocket = new Socket(address, port);
+			System.out.println("P1 has been accepted!");
+	
+			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			out = new PrintWriter(clientSocket.getOutputStream(), true);
+		} catch (IOException ex) {
+			printException(ex);
+		}
     }
 
 	/**
@@ -38,19 +40,23 @@ public class P1 {
 	 * 
 	 * @throws Exception
 	 */
-	public void send() throws Exception {
-		byte[] b = new byte[bytes];
-		InputStream is = new FileInputStream("./D1/F1");
+	public void send() {
+		try {
+			byte[] b = new byte[bytes];
+			InputStream is = new FileInputStream("./D1/F1");
 
-		System.out.println("Sending file F1 data over...");
-		while (is.read(b) != -1) {
-			String data = new String(b, StandardCharsets.UTF_8); // convert read bytes to string
-			out.println(data); // send data over
+			System.out.println("Sending file F1 data over...");
+			while (is.read(b) != -1) {
+				String data = new String(b, StandardCharsets.UTF_8); // convert read bytes to string
+				out.println(data); // send data over
+			}
+			System.out.println("All data sent!");
+	
+			out.println("$Over"); // ending message for no more data to send
+			is.close();
+		} catch (IOException ex) {
+			printException(ex);
 		}
-		System.out.println("All data sent!");
-
-		out.println("$Over"); // ending message for no more data to send
-		is.close();
 	}
 
 	/**
@@ -60,48 +66,71 @@ public class P1 {
 	 * To give the illusion file F1 is being edited natively, create a new file F1'
 	 * Add all data from file F1 to file F1'
 	 * Append file F2 data to file F1'
-	 * 
-	 * @throws Exception
 	 */
-	public void recv() throws Exception {
-		BufferedWriter bw = new BufferedWriter(new FileWriter("./D1/F1'", true)); // create a new file for F1
-        BufferedReader br = new BufferedReader(new FileReader("./D1/F1"));
-        String data = "";
+	public void recv() {
+		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("./D1/F1'", true)); // create a new file for F1
+			BufferedReader br = new BufferedReader(new FileReader("./D1/F1"));
+
+			String data = "";
 		
-		// Add all data from file F1 to F1'
-		while ((data = br.readLine()) != null)
-            bw.write(data);
+			// Add all data from file F1 to F1'
+			while ((data = br.readLine()) != null)
+				bw.write(data);
 
-		// "Append" data from file F2 to F1', as it comes through
-		System.out.println("Recieving file F2 data...");
-        while(!(data = in.readLine()).equals("$Over"))
-            bw.write(data);
-		System.out.println("All data recieved!");
+			// "Append" data from file F2 to F1', as it comes through
+			System.out.println("Recieving file F2 data...");
+			while(!(data = in.readLine()).equals("$Over"))
+				bw.write(data);
+			System.out.println("All data recieved!");
 
-        bw.close();
-        br.close();
+			bw.close();
+        	br.close();
+		} catch (IOException ex) {
+			printException(ex);
+		}
 	}
 
 	/**
 	 * Closes all file streams and socket connection.
-	 * 
-	 * @throws IOException
 	 */
-	public void stop() throws IOException {
-        in.close();
-        out.close();
-        clientSocket.close();
+	public void stop() {
+		try {
+			in.close();
+        	out.close();
+			clientSocket.close();
+		} catch (IOException ex) {
+			printException(ex);
+		}
     }
 
-	public static void main(String args[]) throws Exception {
+	private void printException(Exception ex) {
+		System.out.println("Oops! Something went wrong. Here's the stack trace:");
+
+		StackTraceElement[] e = ex.getStackTrace();
+        System.err.println("\nERROR = " + ex + 
+                           "\nFILE = " + e[0].getFileName() + 
+                           "\nCLASS =" + e[0].getClassName() + 
+                           "\nMETHOD = " + e[0].getMethodName() + 
+                           "\nLINE = " + e[0].getLineNumber());
+
+		System.err.println("FULL TRACE = ");
+		ex.printStackTrace(System.err);
+	}
+
+	public static void main(String args[]) {
 		P1 client = new P1("localhost", 2222);
 		client.start();
 		client.send();
 		client.recv();
 
 		// Replace old F1 file with new one
-		// Path new_F1_path = Paths.get("./D1/F1'");
-        // Path og_F1_path = Paths.get("./D1/F1");
-        // Files.move(new_F1_path, og_F1_path, StandardCopyOption.REPLACE_EXISTING);
+		Path new_F1_path = Paths.get("./D1/F1'");
+        Path og_F1_path = Paths.get("./D1/F1");
+        try {
+			Files.move(new_F1_path, og_F1_path, StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException ex) {
+			System.out.println("Oops! Cannot rename/replace new files for some reason.");
+		}
 	}
 }
