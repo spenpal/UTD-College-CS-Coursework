@@ -21,6 +21,10 @@ program: $(CLS)
 clean:
 	$(RM) *.class
 
+# Rule To Tar Program
+tarball: clean
+	tar cfvz sxp170022_p1.tar.gz ../project1 --exclude=*.pdf
+
 # How To Compile Files
 %.class: %.java
 	$(JC) $(JFLAGS) $<
