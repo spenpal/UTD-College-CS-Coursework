@@ -117,8 +117,7 @@ public class P1 {
 	}
 
 	public static void main(String args[]) {
-		// If you wanted to test this code locally, replace server address with "localhost", instead
-		P1 client = new P1("dc22.utdallas.edu", 2222);
+		P1 client = new P1("dc22.utdallas.edu", 2222); // If you wanted to test this code locally, replace server address with "localhost" instead
 		client.start();
 		client.send();
 		client.recv();
