@@ -19,11 +19,11 @@ program: $(CLS)
 
 # Clean Folder's Files
 clean:
-	$(RM) *.class
+	$(RM) *.class *~ sxp170022_p1.tar.gz
 
 # Rule To Tar Program
 tarball: clean
-	tar cfvz sxp170022_p1.tar.gz ../project1 --exclude=*.pdf
+	tar -X exclude.txt -cvzf sxp170022_p1.tar.gz ../project1 
 
 # How To Compile Files
 %.class: %.java
