@@ -1,5 +1,5 @@
 # UTD Computer Science Work
-All Code Listed Is Coursework (Assignments &amp; Projects) Done As An Undergraduate @ UTD
+All code listed is coursework (assignments &amp; projects) done as an undergraduate &amp graduate @ UTD
 
 Here is the list of the CS coding courses I have taken here at UTD:
 - CS 2336 (Computer Science II) [*Called CS 2337 now*]
