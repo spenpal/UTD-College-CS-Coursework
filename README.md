@@ -13,3 +13,5 @@ Here is the list of the CS coding courses I have taken here at UTD:
 - CS 4365 (Artificial Intelligence)
 - CS 4375 (Introduction to Machine Learning)
 - CS 4395 (Human Language Technologies)
+- CS 6334 (Virtual Reality)
+- CS 6378 (Advanced Operating Systems)
