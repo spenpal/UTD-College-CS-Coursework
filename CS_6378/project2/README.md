@@ -1,0 +1,1 @@
+To run all clients simulatenously, type: `seq 0 4 | xargs java Client `

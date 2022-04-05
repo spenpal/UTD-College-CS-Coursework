@@ -1,0 +1,3 @@
+*.pdf
+sxp170022_p2.tar.gz
+exclude.txt
