@@ -28,10 +28,15 @@ public class C2SMessages {
             }
         };
 
-        // serverRequests.setDaemon(true);
         serverRequests.start();
     }
 
+    /**
+     * This method is used to recieve messages from the server.
+     * @param in2 The input stream from the server.
+     * @param out2 The output stream to the server.
+     * @return 1 if the client is still connected, 0 if the client is disconnected.
+     */
     public int serverMessage(ObjectInputStream in2, ObjectOutputStream out2) {
         try {
             String serverMessage = in2.readObject().toString();
@@ -58,6 +63,10 @@ public class C2SMessages {
         return 1;
     }
 
+    /**
+     * This method is used to send write requests to the server.
+     * @param fileName The name of the file to be written to.
+     */
     public synchronized void write(String fileName) {
         System.out.println("Client " + clientId + ": Sending WRITE request to Server " + serverId + " for file " + fileName);
         
@@ -70,6 +79,9 @@ public class C2SMessages {
         }
     }
 
+    /**
+     * This method is used to send enquire requests to the server.
+     */
     public synchronized void enquire() {
         System.out.println("Client " + clientId + ": Sending ENQUIRE request to Server " + serverId);
 
@@ -80,6 +92,9 @@ public class C2SMessages {
         }
     }
 
+    /**
+     * This method is used to send close requests to the server, and close the streams.
+     */
     public void close() {
         try {
             out.writeObject("CLOSE");

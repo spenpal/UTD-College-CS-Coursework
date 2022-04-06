@@ -29,7 +29,6 @@ public class S2SMessages {
             }
         };
 
-        // clientRequests.setDaemon(true);
         serverRequests.start();
     }
 
@@ -58,7 +57,6 @@ public class S2SMessages {
             }
         };
 
-        // clientRequests.setDaemon(true);
         serverRequests.start();
     }
 
@@ -70,6 +68,12 @@ public class S2SMessages {
         return otherServerId;
     }
 
+    /**
+     * This method is used to handle server messages from servers.
+     * @param in2 The input stream from the server.
+     * @param out2 The output stream to the server.
+     * @return 1 if the server is still connected, 0 if the server is disconnected.
+     */
     public int serverMessage(ObjectInputStream in2, ObjectOutputStream out2) {
         try {
             String serverRequest = in2.readObject().toString();
@@ -106,6 +110,10 @@ public class S2SMessages {
         return 1;
     }
 
+    /**
+     * This method is used to send a WRITE instruction to the other server.
+     * @param request The request to be sent.
+     */
     public synchronized void write(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending WRITE instruction to Server " + otherServerId + " for file " + writeRequest.fileName);
         try {
@@ -116,6 +124,10 @@ public class S2SMessages {
         }
     }
 
+    /**
+     * This method is used to send a WRITE request to the other server.
+     * @param request The request to be sent.
+     */
     public synchronized void request(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending WRITE request to Server " + otherServerId + " for file " + writeRequest.fileName);
         try {
@@ -126,6 +138,10 @@ public class S2SMessages {
         }
     }
     
+    /**
+     * This method is used to send a REPLY to the other server.
+     * @param request The request to be sent.
+     */
     public synchronized void reply(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending reply for request to Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
         try {
@@ -136,6 +152,10 @@ public class S2SMessages {
         }
     }
 
+    /**
+     * This method is used to send a WRITE acknowledgement to the other server.
+     * @param request The request to be sent.
+     */
     public synchronized void sendWriteAcknowledge(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending write acknowledgement for request to Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
         try {
@@ -146,6 +166,9 @@ public class S2SMessages {
         }
     }
 
+    /**
+     * This method is used to close the streams.
+     */
     public void close() {
         try {
             out.close();

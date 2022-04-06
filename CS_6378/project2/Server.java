@@ -31,7 +31,6 @@ public class Server {
     private int outstandingReplyCount = 0;
     private boolean requestedCS = false;
     private boolean usingCS = false;
-    private boolean completedCS = true;
     private String requestedFileForCS = "";
     private int writeAcknowledgeCount;
 
@@ -46,6 +45,9 @@ public class Server {
         serverDirs.put(2, "S2");
     }
 
+    /**
+     * Grab list of servers (for client connections) from config file
+     */
     public void setServerNodes() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("serverInfos"));
@@ -61,6 +63,9 @@ public class Server {
         }
     }
 
+    /**
+     * Grab list of servers (for server connections) from config file
+     */
     public void setServerSetupNodes() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("serverSetupInfos"));
@@ -76,6 +81,9 @@ public class Server {
         }
     }
 
+    /**
+     * Connect to servers
+     */
     public void setServerConnections() {
         while(serverMessengers.size() < serverSetupNodes.size() - 1) {
             try {
@@ -89,6 +97,9 @@ public class Server {
         }
     }
 
+    /**
+     * Listen for other server connection requests
+     */
     public void openServerConnection() {
         try {
             port = serverSetupNodes.get(id).port;
@@ -118,6 +129,9 @@ public class Server {
         currentServer.start();
     }
 
+    /**
+     * Get host files
+     */
     public synchronized String getHostedFiles() {
         if(hostedFiles.isEmpty()) {
             String folderPath = "./" + serverDirs.get(id) + "/";
@@ -133,8 +147,12 @@ public class Server {
         return hostedFiles;
     }
 
-    /*write to file and send ack*/
-    public synchronized boolean writeRequest(WriteRequest writeRequest) {
+    
+    /**
+     * Send request to other servers to get CS permissions.
+     * @param writeRequest Request with write information
+     */
+    public synchronized void writeRequest(WriteRequest writeRequest) {
         if(!(this.requestedCS || this.usingCS)) {
             myWriteRequest = writeRequest;
             requestedFileForCS = myWriteRequest.fileName;
@@ -152,18 +170,17 @@ public class Server {
 
             if(outstandingReplyCount == 0) {
                 enterCS(myWriteRequest);
-            //    releaseCSCleanUp();
             }
-
-            return true;
         }
         else {
             System.out.println("Server " + id + ": Currently in CS or already requested for CS");
         }
-        
-        return false;
     }
 
+    /**
+     * Process a request from another server.
+     * @param writeRequest Request with write information.
+     */
     public synchronized void processRequest(WriteRequest writeRequest) {
         if(writeRequest.fileName.equals(requestedFileForCS)) {
             if (usingCS || requestedCS) {
@@ -188,7 +205,11 @@ public class Server {
         }
     }
 
-    /*Process reply of critical section replies. Enter if all the replies are received*/
+    /**
+     * Process a reply from another server.
+     * @param replyingServerId Id of server replying
+     * @param writeRequest Request with write information.
+     */
     public synchronized void processReply(int replyingServerId, WriteRequest writeRequest) {
         String fileName = writeRequest.fileName;
         if(fileName.equals(requestedFileForCS)) {
@@ -204,11 +225,14 @@ public class Server {
         }
     }
 
+    /**
+     * Enter critical section.
+     * @param writeRequest Request with write information
+     */
     public void enterCS(WriteRequest writeRequest) {
         System.out.println("Server " + id + ": Entering critical section for file " + writeRequest.fileName);
         usingCS = true;
         requestedCS = false;
-        completedCS = false;
 
         try {
             writeAcknowledgeCount = serverMessengers.size();
@@ -225,6 +249,10 @@ public class Server {
         }
     }
 
+    /**
+     * Release critical section.
+     * @param writeRequest Request with write information
+     */
     public void releaseCS(WriteRequest writeRequest) {
         System.out.println("Server " + id + ": Successfully wrote and updated all replicas of file " + writeRequest.fileName);
         System.out.println("Server " + id + ": Releasing critical section for file " + writeRequest.fileName);
@@ -238,7 +266,11 @@ public class Server {
         deferredReplyList.clear();
         writeRequest.success = true;
     }
-
+    
+    /**
+     * Write to file.
+     * @param writeRequest Request with write information
+     */
     public synchronized boolean writeToFile(WriteRequest writeRequest) {
         try {
             String filePath = "./" + serverDirs.get(id) + "/" + writeRequest.fileName;
@@ -256,12 +288,15 @@ public class Server {
         return false;
     }
 
+    /**
+     * Write acknowledgements from other servers.
+     * @param writeRequest Request with write information
+     */
     public synchronized void writeAcknowledge(WriteRequest writeRequest) {
         if(writeRequest.fileName.equals(requestedFileForCS)) {
             writeAcknowledgeCount--;
             // System.out.println(writeAcknowledgeCount);
             if(writeAcknowledgeCount == 0) {
-                completedCS = true;
                 System.out.println("Server " + id + ": CS completed for file " + writeRequest.fileName);
                 releaseCS(myWriteRequest);
             }
@@ -269,7 +304,7 @@ public class Server {
     }
 
     /**
-	 * Starts up the server socket connection and awaits for process P1 to connect.
+	 * Starting up server.
 	 */
     public void start() {
         setServerNodes();
@@ -305,13 +340,11 @@ public class Server {
             }
         };
 
-        // currentServerNode.setDaemon(true);
         currentServerNode.start();
-        // stopConnections();
     }
 
     /**
-	 * Closes socket connection.
+	 * Closes socket connections.
 	 */
     public void stopConnections() {
         while (closedClientSockets < 5) {
@@ -361,7 +394,5 @@ public class Server {
         System.out.println("Starting server...");
         Server server = new Server(serverId);
         server.start();
-
-        // System.out.println("Booted server " + args[0] + " successfully!");
     }
 }

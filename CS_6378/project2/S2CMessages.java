@@ -33,7 +33,6 @@ public class S2CMessages {
             }
         };
 
-        // clientRequests.setDaemon(true);
         clientRequests.start();
     }
 
@@ -45,6 +44,12 @@ public class S2CMessages {
         return clientId;
     }
 
+    /**
+     * This method is used to handle client requests.
+     * @param in2 The input stream from the client.
+     * @param out2 The output stream to the client.
+     * @return 1 if the client is still connected, 0 if the client is disconnected.
+     */
     public int clientMessage(ObjectInputStream in2, ObjectOutputStream out2) {
         try {
             String clientRequest = in2.readObject().toString();
@@ -59,9 +64,6 @@ public class S2CMessages {
                     long clientTimestamp = Long.valueOf(in2.readObject().toString());
                     write(fileName, clientId, clientTimestamp);
                     break;
-                // case "CLOSE":
-                //     server.closedClientSockets++;
-                //     close();
             }
         } catch (Exception ex) {
             printException(ex);
@@ -70,6 +72,12 @@ public class S2CMessages {
         return 1;
     }
 
+    /**
+     * This method is used to send write requests to the server.
+     * @param fileName The name of the file to be written.
+     * @param clientId The ID of the client.
+     * @param clientTimestamp The timestamp of the client.
+     */
     public synchronized void write(String fileName, int clientId, long clientTimestamp) {
         WriteRequest writeRequest = new WriteRequest(fileName, clientId, serverId, clientTimestamp);
         server.writeRequest(writeRequest);
@@ -80,15 +88,18 @@ public class S2CMessages {
                 e.printStackTrace();
             }
         }
+
         System.out.println("Server " + serverId + ": Sending WRITE acknowledge to Client " + clientId);
         try {
             out.writeObject("WRITE_ACK");
-            // out.writeObject(fileName);
         } catch (IOException ex) {
             printException(ex);
         }
     }
 
+    /**
+     * This method is used to send enquire requests to the server.
+     */
     public synchronized void enquire() {
         String hostedFiles = server.getHostedFiles();
         System.out.println("Server " + serverId + ": Successful enquire of files [request from Client " + clientId + "]");
@@ -101,6 +112,9 @@ public class S2CMessages {
         }
     }
 
+    /**
+     * This method is used to close the streams.
+     */
     public void close() {
         try {
             out.close();

@@ -5,7 +5,7 @@ import java.io.*;
 public class Client {
     private int id, numOfWriteRequests = 5;
     public int numOfWriteAcks = 0;
-    int minimumDelay = 1000;
+    int minimumDelay = 5000;
     private String[] hostedFiles;
     private List<Node> serverNodes = new LinkedList<>();
 
@@ -15,6 +15,9 @@ public class Client {
         this.id = id;
     }
 
+    /**
+     * Grab list of servers from config file
+     */
     public void setServerNodes() {
         try {
             BufferedReader br = new BufferedReader(new FileReader("serverInfos"));
@@ -30,6 +33,9 @@ public class Client {
         }
     }
 
+    /**
+     * Connect to servers
+     */
     public void setupServerConnection() {
         for (Node serverNode : serverNodes) {
             try {
@@ -42,14 +48,23 @@ public class Client {
         }
     }
 
+    /**
+     * Get list of hosted files from servers
+     */
     public void setHostedFiles(String hostedFiles) {
         this.hostedFiles = hostedFiles.split(",");
     }
 
+    /**
+     * Send enquire request to servers
+     */
     public void sendEnquireRequest() {
         serverMessengers.get(0).enquire();
     }
 
+    /**
+     * Choose random file to send write request to servers, with some delay in between
+     */
     public void generateWriteRequests() {
         Thread writeRequests = new Thread() {
             public void run() {
@@ -76,12 +91,18 @@ public class Client {
         writeRequests.start();
     }
 
+    /**
+     * Send write request to servers
+     */
     public void sendWriteRequest(String fileName) {
         Random r = new Random();
         int serverId = r.nextInt(serverNodes.size());
         serverMessengers.get(serverId).write(fileName);
     }
 
+    /**
+     * Start program
+     */
     public void start() {
         setServerNodes();
         setupServerConnection();
@@ -91,18 +112,11 @@ public class Client {
         blocker.hasNext();
         generateWriteRequests();
         blocker.close();
-
-        // while (numOfWriteAcks < numOfWriteRequests) {
-        //     try {
-        //         Thread.sleep(1000);
-        //     } catch (Exception ex) {
-        //         printException(ex);
-        //     }
-        // }
-
-        // stopConnections();
     }
 
+    /**
+     * Close all connections
+     */
     public void stopConnections() {
         for (C2SMessages serverMessenger : serverMessengers.values()) {
             serverMessenger.close();
