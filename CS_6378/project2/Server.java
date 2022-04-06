@@ -1,19 +1,41 @@
 import java.net.*;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.util.*;
+
+// class WriteRequestComparator implements Comparator<WriteRequest> {
+//     @Override
+//     public int compare(WriteRequest wr1, WriteRequest wr2) {
+//         return (int) (wr1.timestamp - wr2.timestamp);
+//     }
+// }
 
 public class Server {
 
     // Instance Variables
     private ServerSocket serverSocket;
+    private ServerSocket serverSetupSocket;
     private String hostedFiles = "";
     private int id, port;
 
+    public int closedClientSockets = 0;
+
     private List<Node> serverNodes = new LinkedList<>();
+    private List<Node> serverSetupNodes = new LinkedList<>();
     private HashMap<Integer, String> serverDirs = new HashMap<>();
-    private HashMap<Integer, ServerMessages> clientMessengers = new HashMap<>();
+    private HashMap<Integer, S2CMessages> clientMessengers = new HashMap<>();
+    private HashMap<Integer, S2SMessages> serverMessengers = new HashMap<>();
+    private HashMap<Integer, Boolean> serverPermissionRequired = new HashMap<>();
+    private HashMap<Integer, WriteRequest> deferredReplyList = new HashMap<>();
+    // public PriorityQueue<WriteRequest> writeRequests = new PriorityQueue<>(new WriteRequestComparator());
+
+    private int outstandingReplyCount = 0;
+    private boolean requestedCS = false;
+    private boolean usingCS = false;
+    private boolean completedCS = true;
+    private String requestedFileForCS = "";
+    private int writeAcknowledgeCount;
+
+    private WriteRequest myWriteRequest;
 
     // Constructor
     public Server(int serverId) {
@@ -39,28 +61,51 @@ public class Server {
         }
     }
 
-    /**
-	 * Starts up the server socket connection and awaits for process P1 to connect.
-	 */
-    public void start() {
-        setServerNodes();
-
+    public void setServerSetupNodes() {
         try {
-            port = serverNodes.get(id).port;
-            serverSocket = new ServerSocket(port);
-            System.out.println("Server " + id + " running on " + port);
+            BufferedReader br = new BufferedReader(new FileReader("serverSetupInfos"));
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] serverSetupInfo = line.split(",");
+                Node serverSetupNode = new Node(Integer.parseInt(serverSetupInfo[0]), serverSetupInfo[1], Integer.parseInt(serverSetupInfo[2]));
+                serverSetupNodes.add(serverSetupNode);
+            }
+            br.close();
+        } catch (IOException ex) {
+            printException(ex);
+        }
+    }
+
+    public void setServerConnections() {
+        while(serverMessengers.size() < serverSetupNodes.size() - 1) {
+            try {
+                for(int i = id + 1; i < serverSetupNodes.size(); i++) {
+                    Socket otherServerSocket = new Socket(serverSetupNodes.get(i).ip, serverSetupNodes.get(i).port);
+                    S2SMessages serverConnection = new S2SMessages(otherServerSocket, id, i, this);
+                    serverMessengers.put(i, serverConnection);
+                    serverPermissionRequired.put(i, true);
+                }
+            } catch (IOException ex) {}
+        }
+    }
+
+    public void openServerConnection() {
+        try {
+            port = serverSetupNodes.get(id).port;
+            serverSetupSocket = new ServerSocket(port);
         } catch (IOException ex) {
 			printException(ex);
 		}
 
-        Server currentServer = this;
-        Thread currentServerNode = new Thread() {
+        Server server = this;
+        Thread currentServer = new Thread() {
             public void run() {
-                while(true) {
+                while(serverMessengers.size() < serverNodes.size() - 1) {
                     try {
-                        Socket clientSocket = serverSocket.accept();
-                        ServerMessages serverConnection = new ServerMessages(clientSocket, id, currentServer);
-                        clientMessengers.put(serverConnection.getClientId(), serverConnection);
+                        Socket otherServerSocket = serverSetupSocket.accept();
+                        S2SMessages serverConnection = new S2SMessages(otherServerSocket, id, server);
+                        serverMessengers.put(serverConnection.getOtherServerId(), serverConnection);
+                        serverPermissionRequired.put(serverConnection.getOtherServerId(), true);
                     }
                     catch(IOException ex) { 
                         printException(ex);
@@ -69,22 +114,8 @@ public class Server {
             }
         };
 
-        currentServerNode.setDaemon(true);
-        currentServerNode.start();
-    }
-
-    /*write to file and send ack*/
-    public synchronized boolean writeToFile(String fileName, int clientId, String clientTimestamp) {
-        try {
-            String filePath = "./" + serverDirs.get(id) + "/" + fileName;
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true));
-            writer.append(clientId + "," + clientTimestamp + "\n");
-            writer.close();
-            return true;
-        } catch (IOException ex) {
-            printException(ex);
-        }
-        return false;
+        // currentServer.setDaemon(true);
+        currentServer.start();
     }
 
     public synchronized String getHostedFiles() {
@@ -102,15 +133,196 @@ public class Server {
         return hostedFiles;
     }
 
+    /*write to file and send ack*/
+    public synchronized boolean writeRequest(WriteRequest writeRequest) {
+        if(!(this.requestedCS || this.usingCS)) {
+            myWriteRequest = writeRequest;
+            requestedFileForCS = myWriteRequest.fileName;
+            requestedCS = true;
+            System.out.println("Server " + id + ": Creating WRITE request with message <" + myWriteRequest.message + "> requesting CS access for file " + myWriteRequest.fileName);
+
+            for(HashMap.Entry<Integer, Boolean> entry : serverPermissionRequired.entrySet()) {
+                S2SMessages serverMessenger = serverMessengers.get(entry.getKey());
+                boolean permissionNeeded = entry.getValue();
+                if(permissionNeeded) {
+                    outstandingReplyCount = outstandingReplyCount + 1;
+                    serverMessenger.request(myWriteRequest);
+                }
+            }
+
+            if(outstandingReplyCount == 0) {
+                enterCS(myWriteRequest);
+            //    releaseCSCleanUp();
+            }
+
+            return true;
+        }
+        else {
+            System.out.println("Server " + id + ": Currently in CS or already requested for CS");
+        }
+        
+        return false;
+    }
+
+    public synchronized void processRequest(WriteRequest writeRequest) {
+        if(writeRequest.fileName.equals(requestedFileForCS)) {
+            if (usingCS || requestedCS) {
+                if ((myWriteRequest.timestamp < writeRequest.timestamp) 
+                        || (myWriteRequest.timestamp == writeRequest.timestamp) && (myWriteRequest.clientId < writeRequest.clientId)) {
+                    System.out.println("Server " + id + ": Deferring reply for request from Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
+                    serverPermissionRequired.replace(writeRequest.serverId, true);
+                    deferredReplyList.put(writeRequest.serverId, writeRequest);
+                }
+            }
+            else {
+                System.out.println("Server " + id + ": Sending reply for request from Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
+                serverPermissionRequired.replace(writeRequest.serverId, true);
+                S2SMessages serverMessenger = serverMessengers.get(writeRequest.serverId);
+                serverMessenger.reply(writeRequest);
+            }
+        }
+        else {
+            serverPermissionRequired.replace(writeRequest.serverId, true);
+            S2SMessages serverMessenger = serverMessengers.get(writeRequest.serverId);
+            serverMessenger.reply(writeRequest);
+        }
+    }
+
+    /*Process reply of critical section replies. Enter if all the replies are received*/
+    public synchronized void processReply(int replyingServerId, WriteRequest writeRequest) {
+        String fileName = writeRequest.fileName;
+        if(fileName.equals(requestedFileForCS)) {
+            // System.out.println("Server " + id + ": Recieved reply for from Server " + replyingServerId + " for file " + fileName);
+            serverPermissionRequired.replace(replyingServerId, false);
+            outstandingReplyCount--;
+            if (outstandingReplyCount == 0) {
+                enterCS(myWriteRequest);
+            }
+        }
+        else {
+            System.out.println("Server " + id + ": Recieved reply for from Server " + replyingServerId + ", but for wrong requested file " + fileName);
+        }
+    }
+
+    public void enterCS(WriteRequest writeRequest) {
+        System.out.println("Server " + id + ": Entering critical section for file " + writeRequest.fileName);
+        usingCS = true;
+        requestedCS = false;
+        completedCS = false;
+
+        try {
+            writeAcknowledgeCount = serverMessengers.size();
+            
+            writeToFile(writeRequest);
+            System.out.println("Server " + id + ": Finished writing on file " + writeRequest.fileName);
+            for(HashMap.Entry<Integer, S2SMessages> entry : serverMessengers.entrySet()) {
+                S2SMessages serverMessenger = entry.getValue();
+                serverMessenger.write(writeRequest);
+            }
+        }
+        catch (Exception ex) {
+            printException(ex);
+        }
+    }
+
+    public void releaseCS(WriteRequest writeRequest) {
+        System.out.println("Server " + id + ": Successfully wrote and updated all replicas of file " + writeRequest.fileName);
+        System.out.println("Server " + id + ": Releasing critical section for file " + writeRequest.fileName);
+        this.usingCS = false;
+        this.requestedCS = false;
+        for (HashMap.Entry<Integer, WriteRequest> entry : deferredReplyList.entrySet()) {
+            S2SMessages serverMessenger = serverMessengers.get(entry.getKey());
+            serverMessenger.reply(entry.getValue());
+        }
+        requestedFileForCS = "";
+        deferredReplyList.clear();
+        writeRequest.success = true;
+    }
+
+    public synchronized boolean writeToFile(WriteRequest writeRequest) {
+        try {
+            String filePath = "./" + serverDirs.get(id) + "/" + writeRequest.fileName;
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true));
+            writer.append(writeRequest.message + "\n");
+            writer.close();
+
+            if (writeRequest.serverId != id) {
+                serverMessengers.get(writeRequest.serverId).sendWriteAcknowledge(writeRequest);
+            }
+            return true;
+        } catch (IOException ex) {
+            printException(ex);
+        }
+        return false;
+    }
+
+    public synchronized void writeAcknowledge(WriteRequest writeRequest) {
+        if(writeRequest.fileName.equals(requestedFileForCS)) {
+            writeAcknowledgeCount--;
+            // System.out.println(writeAcknowledgeCount);
+            if(writeAcknowledgeCount == 0) {
+                completedCS = true;
+                System.out.println("Server " + id + ": CS completed for file " + writeRequest.fileName);
+                releaseCS(myWriteRequest);
+            }
+        }
+    }
+
+    /**
+	 * Starts up the server socket connection and awaits for process P1 to connect.
+	 */
+    public void start() {
+        setServerNodes();
+        setServerSetupNodes();
+
+        openServerConnection();
+        Scanner blocker = new Scanner(System.in);
+        blocker.hasNext();
+        setServerConnections();
+        blocker.close();
+
+        try {
+            port = serverNodes.get(id).port;
+            serverSocket = new ServerSocket(port);
+            System.out.println("Server " + id + " running on " + port);
+        } catch (IOException ex) {
+			printException(ex);
+		}
+
+        Server server = this;
+        Thread currentServerNode = new Thread() {
+            public void run() {
+                while(true) {
+                    try {
+                        Socket clientSocket = serverSocket.accept();
+                        S2CMessages serverConnection = new S2CMessages(clientSocket, id, server);
+                        clientMessengers.put(serverConnection.getClientId(), serverConnection);
+                    }
+                    catch(IOException ex) { 
+                        printException(ex);
+                    }
+                }
+            }
+        };
+
+        // currentServerNode.setDaemon(true);
+        currentServerNode.start();
+        // stopConnections();
+    }
+
     /**
 	 * Closes socket connection.
 	 */
-    public void stop() {
-        try {
-            serverSocket.close();
-		} catch (IOException ex) {
-			printException(ex);
-		}
+    public void stopConnections() {
+        while (closedClientSockets < 5) {
+            try {
+                Thread.sleep(1000);
+            } catch (Exception ex) {
+                printException(ex);
+            }
+        }
+
+        System.exit(0);
     }
 
     private void printException(Exception ex) {

@@ -1,44 +1,18 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.*;
 
 public class Client {
-    private int id, port, numOfWriteRequests = 5;
-    private String hostedFiles;
-    private List<Node> clientNodes = new LinkedList<>();
+    private int id, numOfWriteRequests = 5;
+    public int numOfWriteAcks = 0;
+    int minimumDelay = 1000;
+    private String[] hostedFiles;
     private List<Node> serverNodes = new LinkedList<>();
 
-    HashMap<Integer, ClientMessages> serverMessengers = new HashMap<>();
-
-    private int logicalClock = 0;
-    int minimumDelay = 5000;
+    HashMap<Integer, C2SMessages> serverMessengers = new HashMap<>();
 
     public Client(int id) {
         this.id = id;
-    }
-    
-    public void setClientNodes() {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader("clientInfos"));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] clientInfo = line.split(",");
-                Node clientNode = new Node(Integer.parseInt(clientInfo[0]), clientInfo[1], Integer.parseInt(clientInfo[2]));
-                clientNodes.add(clientNode);
-            }
-            br.close();
-        } catch (IOException ex) {
-            printException(ex);
-        }
     }
 
     public void setServerNodes() {
@@ -60,7 +34,7 @@ public class Client {
         for (Node serverNode : serverNodes) {
             try {
                 Socket clientSocket = new Socket(serverNode.ip, serverNode.port);
-                ClientMessages serverMessenger = new ClientMessages(clientSocket);
+                C2SMessages serverMessenger = new C2SMessages(clientSocket, id, serverNode.id, this);
                 serverMessengers.put(serverNode.id, serverMessenger);
             } catch (IOException ex) {
                 printException(ex);
@@ -68,8 +42,12 @@ public class Client {
         }
     }
 
-    public String getHostedFiles() {
-        return serverMessengers.get(0).enquire();
+    public void setHostedFiles(String hostedFiles) {
+        this.hostedFiles = hostedFiles.split(",");
+    }
+
+    public void sendEnquireRequest() {
+        serverMessengers.get(0).enquire();
     }
 
     public void generateWriteRequests() {
@@ -77,15 +55,15 @@ public class Client {
             public void run() {
                 try {
                     for (int i = 0; i < numOfWriteRequests; i++) {
-                        System.out.println("Generating WRITE request...");
+                        System.out.println("Client " + id + ": Generating WRITE request #" + (i + 1) + "...");
                         Random r = new Random();
-                        String fileName = "f" + r.nextInt(hostedFiles.length());
+                        String fileName = "f" + r.nextInt(hostedFiles.length);
                         sendWriteRequest(fileName);
 
                         double randFraction = Math.random() * 1000;
                         int delay = (int) Math.floor(randFraction) + minimumDelay;
-                        System.out.println("The AUTO REQUEST THREAD thread will sleep for " + delay + " seconds");
-                        Thread.sleep(delay);
+                        System.out.println("SYSTEM: REQUEST thread thread will delay for " + delay + " milliseconds");
+                        Thread.sleep(minimumDelay);
                     }
                 }
                 catch (Exception ex) {
@@ -94,24 +72,42 @@ public class Client {
             }
         };
 
-        writeRequests.setDaemon(true);
+        // writeRequests.setDaemon(true);
         writeRequests.start();
     }
 
-    public String sendWriteRequest(String fileName) {
+    public void sendWriteRequest(String fileName) {
         Random r = new Random();
         int serverId = r.nextInt(serverNodes.size());
-        String serverMessage = serverMessengers.get(serverId).write(fileName);
-        return serverMessage;
+        serverMessengers.get(serverId).write(fileName);
     }
 
     public void start() {
-        setClientNodes();
         setServerNodes();
         setupServerConnection();
-        hostedFiles = getHostedFiles();
 
+        sendEnquireRequest();
+        Scanner blocker = new Scanner(System.in);
+        blocker.hasNext();
         generateWriteRequests();
+        blocker.close();
+
+        // while (numOfWriteAcks < numOfWriteRequests) {
+        //     try {
+        //         Thread.sleep(1000);
+        //     } catch (Exception ex) {
+        //         printException(ex);
+        //     }
+        // }
+
+        // stopConnections();
+    }
+
+    public void stopConnections() {
+        for (C2SMessages serverMessenger : serverMessengers.values()) {
+            serverMessenger.close();
+        }
+        System.exit(0);
     }
 
     private void printException(Exception ex) {
@@ -146,7 +142,6 @@ public class Client {
             System.out.println("ERROR: Invalid Server ID. Enter a Client ID between 0-2.");
             System.exit(0);
         }
-
 
         System.out.println("Starting client...");
         Client client = new Client(clientId);
