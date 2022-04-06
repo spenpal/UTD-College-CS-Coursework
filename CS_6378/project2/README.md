@@ -8,3 +8,4 @@
     - Run `java Client <id>` for ids **0-4** in 5 seperate terminals.
     - You should see messages populating on client and server terminals.
 5. Once clients and servers are setup and connected to each other, type `run` in each of the client terminals, which will auto-generate requests to the servers from the client.
+6. Check the server directories to see if all messages are populated exactly as they should be.
