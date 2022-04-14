@@ -43,7 +43,7 @@ public class C2SMessages {
 
             switch (serverMessage) {
                 case "GET_CLIENT_ID":
-                    out2.writeObject(clientId);
+                    out2.writeObject(clientId); out.flush();
                     break;
                 case "ENQUIRE_ACK":
                     System.out.println("Client " + clientId + ": Recieved ENQUIRE acknowledge from Server " + serverId);
@@ -71,9 +71,9 @@ public class C2SMessages {
         System.out.println("Client " + clientId + ": Sending WRITE request to Server " + serverId + " for file " + fileName);
         
         try {
-            out.writeObject("WRITE");
-            out.writeObject(fileName);
-            out.writeObject(System.currentTimeMillis());
+            out.writeObject("WRITE"); out.flush();
+            out.writeObject(fileName); out.flush();
+            out.writeObject(System.currentTimeMillis()); out.flush();
         } catch (IOException e) {
             printException(e);
         }
@@ -86,7 +86,7 @@ public class C2SMessages {
         System.out.println("Client " + clientId + ": Sending ENQUIRE request to Server " + serverId);
 
         try {
-            out.writeObject("ENQUIRE");
+            out.writeObject("ENQUIRE"); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -97,7 +97,7 @@ public class C2SMessages {
      */
     public void close() {
         try {
-            out.writeObject("CLOSE");
+            out.writeObject("CLOSE"); out.flush();
             // serverRequests.interrupt();
             out.close();
             in.close();

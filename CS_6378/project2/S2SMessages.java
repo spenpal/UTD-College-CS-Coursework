@@ -41,7 +41,7 @@ public class S2SMessages {
             out = new ObjectOutputStream(this.otherServerSocket.getOutputStream());
             in = new ObjectInputStream(this.otherServerSocket.getInputStream());
 
-            out.writeObject("GET_SERVER_ID");
+            out.writeObject("GET_SERVER_ID"); out.flush();
             System.out.println("Server " + serverId + ": New Server Connection! GET_SERVER_ID request sent");
             String otherServerId = in.readObject().toString();
             this.otherServerId = Integer.parseInt(otherServerId);
@@ -80,7 +80,7 @@ public class S2SMessages {
 
             switch (serverRequest) {
                 case "GET_SERVER_ID":
-                    out2.writeObject(serverId);
+                    out2.writeObject(serverId); out.flush();
                     break;
                 case "REQUEST":
                     writeRequest = (WriteRequest) in2.readObject();
@@ -117,8 +117,8 @@ public class S2SMessages {
     public synchronized void write(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending WRITE instruction to Server " + otherServerId + " for file " + writeRequest.fileName);
         try {
-            out.writeObject("WRITE");
-            out.writeObject(writeRequest);
+            out.writeObject("WRITE"); out.flush();
+            out.writeObject(writeRequest); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -131,8 +131,8 @@ public class S2SMessages {
     public synchronized void request(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending WRITE request to Server " + otherServerId + " for file " + writeRequest.fileName);
         try {
-            out.writeObject("REQUEST");
-            out.writeObject(writeRequest);
+            out.writeObject("REQUEST"); out.flush();
+            out.writeObject(writeRequest); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -145,8 +145,8 @@ public class S2SMessages {
     public synchronized void reply(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending reply for request to Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
         try {
-            out.writeObject("REPLY");
-            out.writeObject(writeRequest);
+            out.writeObject("REPLY"); out.flush();
+            out.writeObject(writeRequest); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -159,8 +159,8 @@ public class S2SMessages {
     public synchronized void sendWriteAcknowledge(WriteRequest writeRequest) {
         System.out.println("Server " + serverId + ": Sending write acknowledgement for request to Server " + writeRequest.serverId + " for file " + writeRequest.fileName);
         try {
-            out.writeObject("WRITE_ACK");
-            out.writeObject(writeRequest);
+            out.writeObject("WRITE_ACK"); out.flush();
+            out.writeObject(writeRequest); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -171,7 +171,7 @@ public class S2SMessages {
      */
     public void close() {
         try {
-            out.close();
+            out.close(); out.flush();
             in.close();
 			otherServerSocket.close();
         } catch (IOException e) {

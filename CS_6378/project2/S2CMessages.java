@@ -17,7 +17,7 @@ public class S2CMessages {
             out = new ObjectOutputStream(this.clientSocket.getOutputStream());
             in = new ObjectInputStream(this.clientSocket.getInputStream());
 
-            out.writeObject("GET_CLIENT_ID");
+            out.writeObject("GET_CLIENT_ID"); out.flush();
             System.out.println("Server " + serverId + ": New Client Connection! GET_CLIENT_ID request sent");
             String clientId = in.readObject().toString();
             this.clientId = Integer.parseInt(clientId);
@@ -67,7 +67,7 @@ public class S2CMessages {
             }
         } catch (Exception ex) {
             printException(ex);
-            return 0; 
+            return 0;
         }
         return 1;
     }
@@ -80,18 +80,18 @@ public class S2CMessages {
      */
     public synchronized void write(String fileName, int clientId, long clientTimestamp) {
         WriteRequest writeRequest = new WriteRequest(fileName, clientId, serverId, clientTimestamp);
-        server.writeRequest(writeRequest);
+        server.clientWriteRequests.add(writeRequest);
         while(!writeRequest.success) {
             try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.sleep(1);
+            } catch (InterruptedException ex) {
+                printException(ex);
             }
         }
 
         System.out.println("Server " + serverId + ": Sending WRITE acknowledge to Client " + clientId);
         try {
-            out.writeObject("WRITE_ACK");
+            out.writeObject("WRITE_ACK"); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -105,8 +105,8 @@ public class S2CMessages {
         System.out.println("Server " + serverId + ": Successful enquire of files [request from Client " + clientId + "]");
 
         try {
-            out.writeObject("ENQUIRE_ACK");
-            out.writeObject(hostedFiles);
+            out.writeObject("ENQUIRE_ACK"); out.flush();
+            out.writeObject(hostedFiles); out.flush();
         } catch (IOException ex) {
             printException(ex);
         }
@@ -117,7 +117,7 @@ public class S2CMessages {
      */
     public void close() {
         try {
-            out.close();
+            out.close(); out.flush();
             in.close();
 			clientSocket.close();
         } catch (IOException e) {

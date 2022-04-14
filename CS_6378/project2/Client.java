@@ -5,7 +5,7 @@ import java.io.*;
 public class Client {
     private int id, numOfWriteRequests = 5;
     public int numOfWriteAcks = 0;
-    int minimumDelay = 5000;
+    int minimumDelay = 2000;
     private String[] hostedFiles;
     private List<Node> serverNodes = new LinkedList<>();
 

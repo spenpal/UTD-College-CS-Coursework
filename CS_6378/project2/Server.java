@@ -2,12 +2,12 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-// class WriteRequestComparator implements Comparator<WriteRequest> {
-//     @Override
-//     public int compare(WriteRequest wr1, WriteRequest wr2) {
-//         return (int) (wr1.timestamp - wr2.timestamp);
-//     }
-// }
+class WriteRequestComparator implements Comparator<WriteRequest> {
+    @Override
+    public int compare(WriteRequest wr1, WriteRequest wr2) {
+        return (int) (wr1.timestamp - wr2.timestamp);
+    }
+}
 
 public class Server {
 
@@ -26,7 +26,7 @@ public class Server {
     private HashMap<Integer, S2SMessages> serverMessengers = new HashMap<>();
     private HashMap<Integer, Boolean> serverPermissionRequired = new HashMap<>();
     private HashMap<Integer, WriteRequest> deferredReplyList = new HashMap<>();
-    // public PriorityQueue<WriteRequest> writeRequests = new PriorityQueue<>(new WriteRequestComparator());
+    public PriorityQueue<WriteRequest> clientWriteRequests = new PriorityQueue<>(new WriteRequestComparator());
 
     private int outstandingReplyCount = 0;
     private boolean requestedCS = false;
@@ -130,7 +130,7 @@ public class Server {
     }
 
     /**
-     * Get host files
+     * Get hosted files
      */
     public synchronized String getHostedFiles() {
         if(hostedFiles.isEmpty()) {
@@ -327,14 +327,38 @@ public class Server {
         Server server = this;
         Thread currentServerNode = new Thread() {
             public void run() {
-                while(true) {
+                int clientConnections = 0;
+                while(clientConnections < 5) {
                     try {
                         Socket clientSocket = serverSocket.accept();
                         S2CMessages serverConnection = new S2CMessages(clientSocket, id, server);
                         clientMessengers.put(serverConnection.getClientId(), serverConnection);
+                        clientConnections++;
                     }
                     catch(IOException ex) { 
                         printException(ex);
+                    }
+                }
+
+                while(true) {
+                    if(clientWriteRequests.size() > 0) {
+                        System.out.println("We got a write request!");
+                        WriteRequest writeRequest = clientWriteRequests.poll();
+                        writeRequest(writeRequest);
+                        while(!writeRequest.success) {
+                            try {
+                                Thread.sleep(1);
+                            } catch (InterruptedException ex) {
+                                printException(ex);
+                            }
+                        }
+                    }
+                    else {
+                        try {
+                            Thread.sleep(1);
+                        } catch (InterruptedException ex) {
+                            printException(ex);
+                        }
                     }
                 }
             }
