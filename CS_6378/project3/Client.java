@@ -509,44 +509,6 @@ public class Client {
         blocker.nextLine();
         generateWriteRequests();
         blocker.close();
-
-        Thread deadlockHandler = new Thread() {
-            public void run() {
-                if(!detectDeadlock()) {
-                    try {
-                        Thread.sleep(1);
-                    }
-                    catch (Exception ex) {
-                        printException(ex);
-                    }
-                }
-
-                while(true) {
-                    while(clientWriteRequests.size() == 0) {
-                        try {
-                            Thread.sleep(1);
-                        }
-                        catch (Exception ex) {
-                            printException(ex);
-                        }
-                    }
-    
-                    WriteRequest nextWriteRequest = clientWriteRequests.peek();
-    
-                    // Handle FAILED messages
-                    if(compare(nextWriteRequest, currentWriteRequest) > 0) {
-                        C2CMessages clientMessenger = clientMessengers.get(nextWriteRequest.clientId);
-                        clientMessenger.failed(nextWriteRequest);
-                    }
-                    else {
-                        // Handle INQUIRE messages
-                        C2CMessages clientMessenger = clientMessengers.get(currentWriteRequest.clientId);
-                        clientMessenger.inquire(nextWriteRequest);
-                    }
-                }
-            }
-        };
-        // deadlockHandler.start();
     }
 
     /**
