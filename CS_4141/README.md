@@ -1,8 +1,8 @@
 # CS_4141_LABS
 Assignments Completed In "Digital Systems Laboratory" Course
 
-College: The University Of Texas At Dallas\
-Course Number: CS 4141\
-Section Number: 115\
-Instructor: Eric Becker/Yangxiao Lu\
-Semester Taken: Fall 2020
+**College**: The University Of Texas At Dallas\
+**Course Number**: CS 4141\
+**Section Number**: 115\
+**Instructor**: Eric Becker/Yangxiao Lu\
+**Semester Taken**: Fall 2020
