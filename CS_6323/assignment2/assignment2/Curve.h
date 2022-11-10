@@ -28,10 +28,10 @@ public:
 	void init();
 	void calculate_curve();
 
-	float spline_basis_arr[16] = { -0.5, 1.5,-1.5, 0.5,
-									1.0, -2.5, 2.0, -0.5,
-									-0.5, 0.0, 0.5, 0.0,
-									 0.0, 1.0, 0.0, 0.0 };
+	float spline_basis_arr[16] = { -0.5,  1.5, -1.5,  0.5,
+									1.0, -2.5,  2.0, -0.5,
+								   -0.5,  0.0,  0.5,  0.0,
+									0.0,  1.0,  0.0,  0.0 };
 	mat4 spline_basis_mat = make_mat4(spline_basis_arr);
 
 	vector<vec3> catmull_rom(const mat4x3 &control_points);
