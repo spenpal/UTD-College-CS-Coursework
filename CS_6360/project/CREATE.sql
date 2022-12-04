@@ -156,7 +156,7 @@ CREATE TABLE Product (
 	super_id INT,
 	prod_id INT,
 	prod_name VARCHAR(50),
-	pro_desc TEXT,
+	prod_desc TEXT,
 	prod_price DECIMAL(10,2),
 	prod_count INT,
 	PRIMARY KEY (super_id, prod_id),
@@ -181,3 +181,4 @@ CREATE TABLE Delivers (
 	FOREIGN KEY (deliverer_id) REFERENCES Deliverer(deliverer_id) ON DELETE CASCADE,
 	FOREIGN KEY (plate_num) REFERENCES Vehicle(plate_num) ON DELETE CASCADE
 );
+
