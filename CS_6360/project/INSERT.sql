@@ -446,7 +446,6 @@ INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'R'
 INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'F','8:35 AM','8:31 PM');
 INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'S','8:35 AM','8:31 PM');
 INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'U','8:35 AM','8:31 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'M','6:16 AM','12:01 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'T','6:16 AM','12:01 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'W','6:16 AM','12:01 AM');
@@ -454,7 +453,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'F','6:16 AM','12:01 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'S','6:16 AM','12:01 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'U','6:16 AM','12:01 AM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'M','9:09 AM','5:49 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'T','9:09 AM','5:49 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'W','9:09 AM','5:49 PM');
@@ -462,7 +460,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'F','9:09 AM','5:49 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'S','9:09 AM','5:49 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'U','9:09 AM','5:49 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'M','8:00 AM','11:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'T','8:00 AM','11:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'W','8:00 AM','11:00 PM');
@@ -470,7 +467,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'F','8:00 AM','11:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'S','8:00 AM','11:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'U','8:00 AM','11:00 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'M','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'T','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'W','10:00 AM','6:00 PM');
@@ -478,7 +474,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'F','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'S','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'U','10:00 AM','6:00 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'M','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'T','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'W','11:00 AM','9:00 PM');
@@ -486,7 +481,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'F','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'S','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'U','11:00 AM','9:00 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'M','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'T','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'W','9:00 AM','12:00 AM');
@@ -494,7 +488,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'F','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'S','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'U','9:00 AM','12:00 AM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'M','5:30 AM','10:30 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'T','5:30 AM','10:30 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'W','5:30 AM','10:30 AM');
@@ -502,7 +495,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'F','5:30 AM','10:30 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'S','5:30 AM','10:30 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'U','5:30 AM','10:30 AM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'M','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'T','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'W','9:00 AM','12:00 AM');
@@ -510,7 +502,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'F','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'S','9:00 AM','12:00 AM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'U','9:00 AM','12:00 AM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'M','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'T','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'W','10:00 AM','6:00 PM');
@@ -518,7 +509,6 @@ INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'R',
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'F','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'S','10:00 AM','6:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'U','10:00 AM','6:00 PM');
-
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'M','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'T','11:00 AM','9:00 PM');
 INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'W','11:00 AM','9:00 PM');
@@ -563,10 +553,8 @@ INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (434,63675927,'SAVE15');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (609,46304393,'BLACKFRIDAY');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (735,31088059,'GOODTUESDAY');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (324,47996963,'RANDOM');
-
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (728,40615069,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,54864037,'RANDOM');
-
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387576,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387577,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387578,'RANDOM');
@@ -577,7 +565,6 @@ INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387572,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387583,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387594,'RANDOM');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387520,'RANDOM');
-
 
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (54864037,456,'ERY-8792'); 
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (66829326,991,'EYU-8249');
@@ -639,44 +626,3 @@ INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387572,993,'AXF-62
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387583,851,'XQP-7208');
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387594,221,'QQI-6170');
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387520,603,'BLT-2807');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-UPDATE Shop
-SET contract_start_time = '2022-07-14 11:51:34'
-WHERE shop_id = (
-    SELECT shop_id FROM (
-        SELECT shop_id 
-    FROM Shop
-    WHERE contract_start_time IS NULL
-    LIMIT 1
-    ) as x
-);
-
-
-
-
-
-
-
-
-
