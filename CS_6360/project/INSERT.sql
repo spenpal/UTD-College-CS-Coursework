@@ -251,26 +251,26 @@ INSERT INTO MemberCard(card_id,issue_date,silver_mem_id,issued_by) VALUES (74967
 INSERT INTO MemberCard(card_id,issue_date,silver_mem_id,issued_by) VALUES (422179870,'2022-03-25 07:14:00',532,113);
 INSERT INTO MemberCard(card_id,issue_date,silver_mem_id,issued_by) VALUES (866371883,'2022-05-23 15:40:11',413,209);
 
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0906,'Miboo','20 Dawn Pass','898-184-8212',332);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0954,'Quamba','0129 Sachs Lane','182-621-6683',921);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0633,'Fatz','0 Vahlen Lane','273-434-1276',229);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0098,'Jetpulse','0 Tennyson Lane','947-947-4103',333);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0729,'Jabberstorm','45998 Kings Point','916-367-5889',616);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0514,'Flashset','4631 Muir Place','902-566-0387',809);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0328,'Twitterbeat','5080 Carey Center','367-595-4253',474);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0701,'Rhybox','64056 Bunker Hill Way','578-342-1886',332);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0076,'Zazio','08 Bashford Road','175-959-2350',921);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0752,'Demimbu','89250 Gerald Way','267-865-7311',229);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0210,'Youspan','62352 Hermina Lane','407-270-2469',333);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0067,'Latz','823 Heath Park','836-171-2489',616);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0939,'Oyonder','55 Gateway Trail','790-892-7611',809);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0876,'Zoonoodle','023 Florence Avenue','287-171-6459',474);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0786,'Twitterworks','33372 Mifflin Center','987-827-2007',332);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0370,'Blogspan','31504 Buhler Avenue','240-846-6321',921);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0057,'Photobean','299 Mayfield Drive','876-897-4832',229);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0722,'Riffpedia','6838 Northwestern Parkway','181-300-7929',333);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0165,'Dazzlesphere','1412 Texas Street','654-889-5722',616);
-INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0260,'Janyx','8573 Susan Plaza','733-425-2982',809);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0906,'Miboo','20 Dawn Pass','898-184-8212','2021-10-26 13:26:04',332);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0954,'Quamba','0129 Sachs Lane','182-621-6683','2021-03-24 22:39:21',921);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0633,'Fatz','0 Vahlen Lane','273-434-1276','2021-11-02 02:25:24',229);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0098,'Jetpulse','0 Tennyson Lane','947-947-4103','2021-05-02 08:29:13',333);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0729,'Jabberstorm','45998 Kings Point','916-367-5889','2020-12-30 23:01:53',616);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0514,'Flashset','4631 Muir Place','902-566-0387','2021-01-25 09:45:35',809);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0328,'Twitterbeat','5080 Carey Center','367-595-4253','2021-08-15 02:08:42',474);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0701,'Rhybox','64056 Bunker Hill Way','578-342-1886','2021-09-19 19:45:37',332);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0076,'Zazio','08 Bashford Road','175-959-2350','2021-08-21 09:50:22',921);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0752,'Demimbu','89250 Gerald Way','267-865-7311','2021-09-09 22:24:22',229);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0210,'Youspan','62352 Hermina Lane','407-270-2469','2021-07-07 09:10:55',333);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0067,'Latz','823 Heath Park','836-171-2489','2021-04-28 20:40:27',616);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0939,'Oyonder','55 Gateway Trail','790-892-7611','2021-03-25 16:23:20',809);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0876,'Zoonoodle','023 Florence Avenue','287-171-6459','2021-07-18 18:35:18',474);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0786,'Twitterworks','33372 Mifflin Center','987-827-2007','2021-07-08 23:45:36',332);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0370,'Blogspan','31504 Buhler Avenue','240-846-6321','2021-06-01 17:43:07',921);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0057,'Photobean','299 Mayfield Drive','876-897-4832','2021-03-03 12:20:10',229);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0722,'Riffpedia','6838 Northwestern Parkway','181-300-7929','2021-05-14 00:20:43',333);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0165,'Dazzlesphere','1412 Texas Street','654-889-5722','2021-09-16 12:21:12',616);
+INSERT INTO Shop(shop_id,shop_name,shop_addr,bus_phone_num,area_man_id) VALUES (0260,'Janyx','8573 Susan Plaza','733-425-2982','2021-07-14 11:51:34',809);
 
 INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (54864037,'Crab - Meat',40.06,'4234039047','mastercard','2022-11-06 00:00:06',998,0906);
 INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (66829326,'Irish Cream - Baileys',75.05,'8025306801','mastercard','2022-09-25 15:46:55',920,0876);
@@ -322,6 +322,20 @@ INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pa
 INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (39996849,'Pop - Club Soda Can',43.26,'6733753952','mastercard','2021-12-30 16:37:41',920,0876);
 INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (34569497,'Wine - Pinot Noir Pond Haddock',28.11,'6933554902','mastercard','2022-03-06 16:26:27',601,0076);
 INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (63841826,'Chocolate Liqueur - Godet White',34.24,'7673779676','mastercard','2022-08-30 23:43:41',532,0786);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387576,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:37',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387577,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:38',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387578,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:39',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387579,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:34',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387571,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:41',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387570,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:42',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387572,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:43',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387583,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:44',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387594,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:45',998,0701);
+INSERT INTO Orders(ord_id,ord_contents,ord_subtotals,pay_confirm_num,pay_type,pay_time,cust_id,shop_id) VALUES (32387520,'Juice - Cranberry 284ml',6.23,'8526100459','mastercard','2022-12-02 20:24:46',998,0701);
+
+-- change all dates in Orders table to a random date within the past 2 months
+UPDATE Orders
+SET pay_time = DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 56) DAY);
 
 INSERT INTO Promotion(promo_code,promo_desc,shop_id) VALUES ('SAVE15','Use this promo to save on your order',0786);
 INSERT INTO Promotion(promo_code,promo_desc,shop_id) VALUES ('BLACKFRIDAY','Use this promo to save on your order',0876);
@@ -433,6 +447,86 @@ INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'F'
 INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'S','8:35 AM','8:31 PM');
 INSERT INTO Schedule(super_id,day_of_week,open_time,close_time) VALUES (0260,'U','8:35 AM','8:31 PM');
 
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'M','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'T','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'W','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'R','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'F','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'S','6:16 AM','12:01 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0906,'U','6:16 AM','12:01 AM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'M','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'T','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'W','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'R','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'F','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'S','9:09 AM','5:49 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0954,'U','9:09 AM','5:49 PM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'M','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'T','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'W','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'R','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'F','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'S','8:00 AM','11:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0633,'U','8:00 AM','11:00 PM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'M','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'T','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'W','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'R','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'F','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'S','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0098,'U','10:00 AM','6:00 PM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'M','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'T','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'W','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'R','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'F','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'S','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0729,'U','11:00 AM','9:00 PM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'M','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'T','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'W','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'R','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'F','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'S','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0514,'U','9:00 AM','12:00 AM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'M','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'T','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'W','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'R','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'F','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'S','5:30 AM','10:30 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0328,'U','5:30 AM','10:30 AM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'M','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'T','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'W','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'R','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'F','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'S','9:00 AM','12:00 AM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0701,'U','9:00 AM','12:00 AM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'M','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'T','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'W','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'R','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'F','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'S','10:00 AM','6:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0076,'U','10:00 AM','6:00 PM');
+
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'M','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'T','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'W','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'R','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'F','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'S','11:00 AM','9:00 PM');
+INSERT INTO Schedule(shop_id,day_of_week,open_time,close_time) VALUES (0752,'U','11:00 AM','9:00 PM');
+
 INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) VALUES (0210,468003,'Soup - Campbells Chili Veg','Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante.',17.77,41);
 INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) VALUES (0067,313357,'The Pop Shoppe - Black Cherry','Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.',16.94,24);
 INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) VALUES (0939,599868,'Oil - Hazelnut','Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo.',17.13,11);
@@ -464,13 +558,26 @@ INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) 
 INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) VALUES (0165,245503,'Hinge W Undercut','Nunc nisl.',19.13,37);
 INSERT INTO Product(super_id,prod_id,prod_name,prod_desc,prod_price,prod_count) VALUES (0260,554257,'Phyllo Dough','Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.',19.79,2);
 
-
-
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (278,47208793,'SAVE15');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (434,63675927,'SAVE15');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (609,46304393,'BLACKFRIDAY');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (735,31088059,'GOODTUESDAY');
 INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (324,47996963,'RANDOM');
+
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (728,40615069,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,54864037,'RANDOM');
+
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387576,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387577,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387578,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387579,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387571,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387570,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387572,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387583,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387594,'RANDOM');
+INSERT INTO Uses(cust_id,ord_id,promo_code) VALUES (998,32387520,'RANDOM');
+
 
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (54864037,456,'ERY-8792'); 
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (66829326,991,'EYU-8249');
@@ -522,3 +629,54 @@ INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (88146611,851,'XQP-72
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (39996849,221,'QQI-6170');
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (34569497,603,'BLT-2807');
 INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (63841826,620,'BKH-5326');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387576,456,'ERY-8792');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387577,991,'EYU-8249');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387578,485,'MMG-1209');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387579,903,'DJY-3614');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387571,618,'IOV-5462');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387570,581,'BKG-1699');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387572,993,'AXF-6281');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387583,851,'XQP-7208');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387594,221,'QQI-6170');
+INSERT INTO Delivers(ord_id,deliverer_id,plate_num) VALUES (32387520,603,'BLT-2807');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UPDATE Shop
+SET contract_start_time = '2022-07-14 11:51:34'
+WHERE shop_id = (
+    SELECT shop_id FROM (
+        SELECT shop_id 
+    FROM Shop
+    WHERE contract_start_time IS NULL
+    LIMIT 1
+    ) as x
+);
+
+
+
+
+
+
+
+
+
