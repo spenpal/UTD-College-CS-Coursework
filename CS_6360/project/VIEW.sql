@@ -38,7 +38,7 @@ SELECT Employee.emp_id, Employee.emp_first_name, Employee.emp_last_name, COUNT(S
 FROM Employee
 JOIN AreaManager ON Employee.emp_id = AreaManager.area_man_id
 JOIN Shop ON Employee.emp_id = Shop.area_man_id
-WHERE Shop.contract_start_time > DATE_SUB(NOW(),INTERVAL 1 YEAR)
+WHERE Shop.con_start_time > DATE_SUB(NOW(),INTERVAL 1 YEAR)
 GROUP BY Employee.emp_id
 ORDER BY num_contracts DESC
 LIMIT 1;

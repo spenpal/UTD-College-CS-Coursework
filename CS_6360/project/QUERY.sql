@@ -28,9 +28,10 @@ ORDER BY cust_first_name, cust_last_name;
 
 -- 4
 -- List all the customers that have become a silver member within a month of joining the system.
-SELECT cust_first_name, cust_last_name, join_date
+SELECT cust_first_name, cust_last_name
 FROM Customer
-WHERE silver_mem_flag = true AND join_date > DATE_SUB(NOW(),INTERVAL 1 MONTH);
+JOIN SilverMember ON Customer.cust_id = SilverMember.silver_mem_id
+WHERE Customer.silver_mem_flag = true AND TIMESTAMPDIFF(MONTH, join_date, silver_join_date) < 1;
 
 -- 5
 -- Find the names of deliverers who delivered the most orders in past 1 month.
@@ -54,7 +55,7 @@ WHERE total_promotions = (
 -- Find the customer who have place orders of all restaurants that are fast food.
 SELECT cust_first_name, cust_last_name
 FROM (
-    SELECT cust_first_name, cust_last_name, COUNT(shop_name) AS num_restaurants
+    SELECT cust_first_name, cust_last_name, COUNT(DISTINCT shop_name) AS num_restaurants
     FROM Customer
     JOIN Orders ON Customer.cust_id = Orders.cust_id
     JOIN Shop ON Orders.shop_id = Shop.shop_id
