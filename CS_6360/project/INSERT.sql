@@ -99,7 +99,7 @@ INSERT INTO PremiumMember(pre_mem_id,meal_pass_id,pass_start_date,expiration_dat
 INSERT INTO PremiumMember(pre_mem_id,meal_pass_id,pass_start_date,expiration_date) VALUES (7867,8185190534,'2022-02-07 13:36:04','2023-10-09 22:12:15');
 INSERT INTO PremiumMember(pre_mem_id,meal_pass_id,pass_start_date,expiration_date) VALUES (8860,4211820974,'2022-09-09 01:43:44','2023-10-22 20:48:05');
 
-INSERT INTO SilverMember(silver_mem_id), DATE_ADD()
+INSERT INTO SilverMember(silver_mem_id)
 SELECT cust_id
 FROM Customer
 WHERE silver_mem_flag = true;
@@ -121,7 +121,6 @@ UPDATE SilverMember SET silver_join_date = '2022-06-28' WHERE silver_mem_id = 41
 UPDATE SilverMember SET silver_join_date = '2022-01-28' WHERE silver_mem_id = 434;
 UPDATE SilverMember SET silver_join_date = '2022-11-28' WHERE silver_mem_id = 472;
 UPDATE SilverMember SET silver_join_date = '2022-11-28' WHERE silver_mem_id = 532;
-
 UPDATE SilverMember SET silver_join_date = '2022-05-04' WHERE silver_mem_id = 601;
 UPDATE SilverMember SET silver_join_date = '2022-03-20' WHERE silver_mem_id = 610;
 UPDATE SilverMember SET silver_join_date = '2022-12-16' WHERE silver_mem_id = 751;
@@ -130,10 +129,6 @@ UPDATE SilverMember SET silver_join_date = '2022-03-26' WHERE silver_mem_id = 83
 UPDATE SilverMember SET silver_join_date = '2021-02-20' WHERE silver_mem_id = 876;
 UPDATE SilverMember SET silver_join_date = '2022-11-12' WHERE silver_mem_id = 904;
 UPDATE SilverMember SET silver_join_date = '2021-02-15' WHERE silver_mem_id = 944;
-
-SELECT silver_mem_id, join_date
-From SilverMember
-JOIN Customer ON Customer.cust_id = SilverMember.silver_mem_id;
 
 INSERT INTO Employee(emp_Id,emp_first_name,emp_middle_name,emp_last_name,emp_phone_num,start_date,emp_addr,dob,gender,pre_mem_id) VALUES ("E928",'Nappy',NULL,'Moralis','450-639-8711','2022-08-28 13:24:29','0866 Spohn Avenue','1993-06-06 13:31:20','Male',7022);
 INSERT INTO Employee(emp_Id,emp_first_name,emp_middle_name,emp_last_name,emp_phone_num,start_date,emp_addr,dob,gender,pre_mem_id) VALUES ("E723",'Vita',NULL,'Decroix','481-333-0491','2022-01-31 05:34:21','8114 Sunnyside Avenue','1968-10-18 22:10:21','Female',3252);
