@@ -44,9 +44,12 @@ CREATE TABLE Employee (
 	start_date DATE,
 	emp_addr VARCHAR(50),
     dob DATE,
+	start_date_age INT DEFAULT(TIMESTAMPDIFF(YEAR, Employee.dob, start_date)),
 	gender VARCHAR(50),
 	pre_mem_id INT,
     FOREIGN KEY (pre_mem_id) REFERENCES PremiumMember(pre_mem_id) ON DELETE CASCADE
+	CHECK (emp_id>=100 AND emp_id<=999)
+	CHECK (start_date_age >= 18)
 );
 
 CREATE TABLE EmployeePhone (
