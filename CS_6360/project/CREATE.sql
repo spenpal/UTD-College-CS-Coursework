@@ -191,7 +191,3 @@ CREATE TABLE Delivers (
 	FOREIGN KEY (deliverer_id) REFERENCES Deliverer(deliverer_id) ON DELETE CASCADE,
 	FOREIGN KEY (plate_num) REFERENCES Vehicle(plate_num) ON DELETE CASCADE
 );
-
-
-ALTER TABLE 
-
