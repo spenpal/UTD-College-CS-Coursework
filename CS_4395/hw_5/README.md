@@ -14,7 +14,7 @@ pip install < requirements.txt
     - Moderate changes were made to cleaned scraped files, such as removing redundant lines, non-english characters, and empty files, duplicate files
     - This may be why there may be less cleaned files than scraped files
     - There are a total of **20** cleaned files used to find important terms and compile a knowledge base out of
-- Knowlege base is in form of a Python dictionary with keywords being an importan term from the corpus, and value being a list of sentences that has the important term in it
+- Knowlege base is in form of a Python dictionary with keywords being an important term from the corpus, and value being a list of sentences that has the important term in it
 
 
 
