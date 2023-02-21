@@ -14,7 +14,9 @@ Here is the list of the CS courses I have taken here at UTD:
 - CS 4375 (**Introduction to Machine Learning**)
 - CS 4395 (**Human Language Technologies**)
 - CS 6313 (**Statistical Methods for Data Science**)
+- CS 6323 (**Computer Animation & Gaming**)
 - CS 6334 (**Virtual Reality**)
+- CS 6360 (**Database Design**)
 - CS 6375 (**Machine Learning**)
 - CS 6378 (**Advanced Operating Systems**)
 ---
