@@ -1,4 +1,4 @@
-set.seed(123) # for reproducibility
+set.seed(222) # for reproducibility
 n = 10000 # number of replications
 
 # simulate n random points in a unit square
