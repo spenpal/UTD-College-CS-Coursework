@@ -180,7 +180,7 @@ def compute_accuracy(y_true, y_pred):
     :return: error rate = (1/n) * sum(y_true!=y_pred)
     """
     n = len(y_true)
-    return np.sum(y_true != y_pred) / n
+    return np.sum(y_true == y_pred) / n
 
 
 def compute_precision(y_true, y_pred):
@@ -372,22 +372,23 @@ if __name__ == "__main__":
         label="Bernoulli Naive Bayes",
     )
     plt.bar(
-        br4, 
-        mult, 
-        color="y", 
-        width=barWidth, 
-        edgecolor="grey", 
-        label="Multinomial Naive Bayes")
+        br4,
+        mult,
+        color="y",
+        width=barWidth,
+        edgecolor="grey",
+        label="Multinomial Naive Bayes",
+    )
 
-    plt.xlabel("Model", fontweight="bold", fontsize=15)
-    plt.ylabel("Metrics", fontweight="bold", fontsize=15)
+    plt.xlabel("Metrics", fontweight="bold", fontsize=15)
+    plt.ylabel("Score", fontweight="bold", fontsize=15)
     plt.xticks(
         [r + barWidth for r in range(len(simp))],
         ["Accuracy", "Precision", "Recall", "F1 Score"],
     )
     plt.legend()
     plt.show()
-    
+
     # PART E - Save the Model
     # Code to store as pickle file
     netid = "gss170001_sxp170022"
