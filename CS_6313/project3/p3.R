@@ -20,3 +20,4 @@ cat("Maximum likelihood estimate:", theta_hat, "\n")
 cat("Standard error:", se, "\n")
 cat("95% confidence interval:", ci, "\n")
 
+qnorm(0.975)
