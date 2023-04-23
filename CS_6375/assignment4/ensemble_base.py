@@ -58,7 +58,7 @@ def entropy(y, weights=None):
     Returns the entropy of z: H(z) = p(z=v1) log2(p(z=v1)) + ... + p(z=vk) log2(p(z=vk))
     """
     if weights is None:
-        weights = np.ones(len(y))
+        weights = np.ones(len(y)) / len(y)
 
     p = np.bincount(y, weights=weights) / np.sum(weights)
     # set entropy to 0 if probability is 0
@@ -77,14 +77,15 @@ def mutual_information(x, y, weights=None):
     Compute the weighted mutual information for Boosted learners
     """
     if weights is None:
-        weights = np.ones(len(y))
+        weights = np.ones(len(x)) / len(x)
 
     entropy_y = entropy(y, weights)
     entropy_y_given_x = 0
     for value, indices in partition(x).items():
+        # normalized_weights = weights[indices] / np.sum(weights[indices])
         entropy_y_given_x_value = entropy(y[indices], weights[indices])
-        weight = np.sum(weights[indices]) / np.sum(weights)
-        entropy_y_given_x += weight * entropy_y_given_x_value
+        prob = len(indices) / len(x)
+        entropy_y_given_x += prob * entropy_y_given_x_value
     return entropy_y - entropy_y_given_x
 
 
@@ -142,11 +143,9 @@ def id3(X, y, attribute_value_pairs=None, depth=0, max_depth=5, weights=None):
 
     # Base Cases
     if weights is None:
-        weights = np.ones(len(y))
-    if len(set(y)) == 1:
-        return y[0]
-    if not attribute_value_pairs or depth >= max_depth:
-        return np.argmax(np.bincount(y))
+        weights = np.ones(len(X)) / len(X)
+    if len(set(y)) == 1 or not attribute_value_pairs or depth == max_depth:
+        return int(np.mean(y) >= 0.5)
 
     # Find best attribute-value pair
     best_gain = -1
@@ -229,12 +228,13 @@ def boosting(X, y, max_depth, num_stumps):
 
     for _ in range(num_stumps):
         tree = id3(X, y, max_depth=max_depth, weights=weights)
+        # visualize(tree, depth=0)
         y_pred = [predict_example(x, tree) for x in X]
 
         error = np.sum(weights[y_pred != y])
         alpha = 0.5 * np.log((1 - error) / error)
 
-        weights *= np.exp(-alpha * np.where(y == y_pred, 1, -1))
+        weights *= np.exp(alpha * np.where(y != y_pred, 1, -1))
         weights /= np.sum(weights)
 
         weak_learners.append((alpha, tree))
@@ -244,7 +244,7 @@ def boosting(X, y, max_depth, num_stumps):
 
 def predict_example(x, tree):
     """
-    Predicts the apclassification label for a single example x using tree by recursively descending the tree until
+    Predicts the classification label for a single example x using tree by recursively descending the tree until
     a label/leaf node is reached.
 
     Returns the predicted label of x according to tree
@@ -293,7 +293,11 @@ def visualize(tree, depth=0):
 
         # Print the current node: split criterion
         print("|\t" * depth, end="")
-        print("+-- [SPLIT: x{0} = {1}]".format(split_criterion[0], split_criterion[1]))
+        print(
+            "+-- [SPLIT: x{0} = {1} | {2}]".format(
+                split_criterion[0], split_criterion[1], split_criterion[2]
+            )
+        )
 
         # Print the children
         if type(sub_trees) is dict:
