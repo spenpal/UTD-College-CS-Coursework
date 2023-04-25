@@ -11,6 +11,10 @@
 # Student side autograding was added by Brad Miller, Nick Hay, and
 # Pieter Abbeel (pabbeel@cs.berkeley.edu).
 
+#  Team
+#  Gautam Sapre (gss170001)
+#  Sanjeev Penupala (sxp170022)
+
 
 import math
 import random
