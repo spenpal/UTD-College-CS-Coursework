@@ -61,3 +61,28 @@ div.p-5.border {
 #how-to-play {
     background-color: #eaecef;
 }
+
+#gallery-header {
+    white-space: pre-line;
+}
+
+#jumbotron-box {
+    background-color: #e9ecef;
+}
+.jumbotron {
+    padding-top: 9em;
+}
+
+.jumbotron > h1 {
+    color: rgb(15, 104, 134);
+    font-family: "Brush Script MT", cursive;
+}
+
+#contact-header {
+    white-space: pre-line;
+}
+
+#follow-us p {
+    font-family: "Brush Script MT", cursive;
+    font-size: 1.5em;
+}
