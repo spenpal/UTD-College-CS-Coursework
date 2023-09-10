@@ -1,0 +1,222 @@
+<!-- 
+   -  Filename: index.html
+   -  Date: 09/09/23
+   -  Author: Sanjeev Penupala
+   -  Email: sanjeev.penupala@utdallas.edu
+   -  Course: CS 6314.002 Fall 2023
+   -  Version: 1.0
+   -  Copyright: 2023, All Rights Reserved 
+   -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+        <title>Assignment #1</title>
+
+        <link rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <nav id="top-navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor"
+                                class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                                <path fill-rule="evenodd"
+                                    d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                            </svg>
+                            Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor"
+                                class="bi bi-star-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                            Rewards
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                height="16" fill="currentColor"
+                                class="bi bi-box-arrow-right"
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                                <path fill-rule="evenodd"
+                                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                            </svg>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <nav id="main-navbar"
+            class="navbar navbar-expand-lg navbar-dark navbar-left">
+            <a class="navbar-brand ml-5 mb-1" href="#">ARCADE</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-5">
+                    <li class="nav-item mx-1">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a class="nav-link" href="#">Gallery</a>
+                    </li>
+                    <li class="nav-item dropdown mx-1">
+                        <a class="nav-link dropdown-toggle" href="#"
+                            id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Games
+                        </a>
+                        <div class="dropdown-menu"
+                            aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Online</a>
+                            <a class="dropdown-item" href="#">Offline</a>
+                        </div>
+                    </li>
+                    <li class="nav-item mx-1">
+                        <a class="nav-link" href="#">Maps</a>
+                    </li>
+                </ul>
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="text" class="form-control"
+                            placeholder="search.." aria-label="search"
+                            aria-describedby="basic-addon1">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor"
+                                    class="bi bi-search" viewBox="0 0 16 16">
+                                    <path
+                                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col d-flex justify-content-end py-4">
+                    <nav class="col-10" aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a class="nav-item"
+                                    href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Games</a></li>
+                            <li class="breadcrumb-item"><a href="#">Online</a></li>
+                            <li class="breadcrumb-item active"
+                                aria-current="page">Meme
+                                It</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2 px-4">
+                    <div class="card">
+                        <div class="card-header">Similar Games</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Doodle</li>
+                            <li class="list-group-item">MemCheck</li>
+                            <li class="list-group-item">Riddly</li>
+                        </ul>
+                    </div>
+                    <br /><br />
+                    <div class="card">
+                        <div class="card-header">Top Ranked</div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Sonic</li>
+                            <li class="list-group-item">Super Mario Bros</li>
+                            <li class="list-group-item">MemCheck</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-6 px-4">
+                    <div class="border p-5">
+                        <div class="border p-3 d-inline-block">
+                            <h1 class="card-title">Meme It</h1>
+                        </div>
+                        <div class="card-deck pt-5">
+                            <div class="card">
+                                <img class="card-img-top img-fluid"
+                                    src="img/no.png"
+                                    alt="no">
+                                <div class="card-body">
+                                    <h2 id="meme-text-top" class="card-text">Weekend</h2>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <img class="card-img-top img-fluid"
+                                    src="img/yes.png"
+                                    alt="yes">
+                                <div class="card-body">
+                                    <h2 id="meme-text-bottom" class="card-text">Weekend</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3 px-4">
+                    <div class="card">
+                        <div id="how-to-play" class="card-body p-5">
+                            <h2 class="card-title">How to play</h5>
+                            <hr>
+                            <p class="card-text">Enter the text into the input
+                                fields and generate your custom meme!</p>
+                            <div class="form-group">
+                                <input type="text" class="form-control">
+                                <input type="text" class="form-control mt-3">
+                            </div>
+                            <div class="d-flex justify-content-start">
+                                <button class="btn btn-primary">Generate</button>
+                                <button class="btn btn-primary ml-1">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <p class="text-center">Sanjeev Penupala</p>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    </body>
+</html>

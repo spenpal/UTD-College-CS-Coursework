@@ -1,0 +1,63 @@
+/* 
+ * Filename: style.css
+ * Date: 09/09/23
+ * Author: Sanjeev Penupala
+ * Email: sanjeev.penupala@utdallas.edu
+ * Course: CS 6314.002 Fall 2023
+ * Version: 1.0
+ * Copyright: 2023, All Rights Reserved  
+ */
+
+a.nav-link {
+    color: white !important;
+}
+
+#main-navbar {
+    background-color: rgb(15, 104, 134);
+}
+
+.navbar-brand {
+    color: white;
+    font-size: 300%;
+    font-weight: 600;
+}
+
+.form-inline > div > input.form-control {
+    font-style: italic;
+    width: 15vw;
+}
+
+.breadcrumb-item > a {
+    color: black;
+}
+
+.card-header {
+    color: white;
+    background-color: rgb(15, 104, 134);
+}
+
+div.p-5.border {
+    border-color: rgb(175, 173, 173) !important;
+}
+
+.card-deck > .card {
+    border: none;
+}
+
+.card-deck > .card > .card-body {
+    background-color: rgb(15, 104, 134);
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+#meme-text-top, #meme-text-bottom {
+    font-family: sans-serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 2.5vw;
+    color: white;
+}
+
+#how-to-play {
+    background-color: #eaecef;
+}
