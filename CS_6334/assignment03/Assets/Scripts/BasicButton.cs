@@ -38,4 +38,9 @@ public class BasicButton : MonoBehaviour
         b_pressed = false;
         selected = false;
     }
+
+    public void Invoke()
+    {
+        GetComponent<Button>().onClick.Invoke();
+    }
 }

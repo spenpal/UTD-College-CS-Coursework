@@ -80,13 +80,13 @@ public class Cube : MonoBehaviour
         switch (md.getMode().rotationAxis)
         {
             case "X-Axis":
-                rotate = new Vector3(rotateValue, 0, 0) * 1f * Time.deltaTime;
+                rotate = new Vector3(rotateValue, 0, 0) * 100f * Time.deltaTime;
                 break;
             case "Y-Axis":
-                rotate = new Vector3(0, rotateValue, 0) * 1f * Time.deltaTime;
+                rotate = new Vector3(0, rotateValue, 0) * 100f * Time.deltaTime;
                 break;
             case "Z-Axis":
-                rotate = new Vector3(0, 0, rotateValue) * 1f * Time.deltaTime;
+                rotate = new Vector3(0, 0, rotateValue) * 100f * Time.deltaTime;
                 break;
             default:
                 break;
@@ -118,7 +118,7 @@ public class Cube : MonoBehaviour
 
     public void EnableMenu()
     {
-        gameObject.transform.FindChild("Canvas").gameObject.SetActive(true);
+        menuCanvas.SetActive(true);
     }
     
     // Enable outline if pointer touches cube

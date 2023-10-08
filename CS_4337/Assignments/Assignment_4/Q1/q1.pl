@@ -1,0 +1,1 @@
+unionlist(X, Y, Z) :- subtract(Y, X, A), append(X, A, Z).

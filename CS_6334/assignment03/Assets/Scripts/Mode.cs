@@ -22,9 +22,6 @@ public class Mode : MonoBehaviour
     public GameObject moveValueText, rotateValueText;
     public ToggleGroup transToggleGroup, rotateToggleGroup, colorToggleGroup;
 
-    bool b_pressed = false;
-    bool selected = false;
-
     Quaternion spawnRot = Quaternion.Euler(0f, 0f, 0f);
 
     // Start is called before the first frame update

@@ -9,7 +9,7 @@ public class Character : MonoBehaviour
     public float speed = 100.0f;
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
-    public GameObject gvrEventSystem;
+    public GameObject gvrEventSystem, gvrReticlePointer;
     public GameObject pauseMenuCanvas, resumeButton, quitButton;
 
     void Awake()
@@ -39,27 +39,18 @@ public class Character : MonoBehaviour
     {
         gvrEventSystem.GetComponent<GvrPointerInputModule>().enabled = false;
         gvrEventSystem.GetComponent<StandaloneInputModule>().enabled = true;
-
-        Time.timeScale = 0;
         pauseMenuCanvas.SetActive(true);
 
-        // Clear selected objects from EventSystem
-        EventSystem.current.SetSelectedGameObject(null);
-
-        // Select new object
-        EventSystem.current.SetSelectedGameObject(resumeButton);
+        Time.timeScale = 0;
     }
 
     public void Resume()
     {
         gvrEventSystem.GetComponent<StandaloneInputModule>().enabled = false;
         gvrEventSystem.GetComponent<GvrPointerInputModule>().enabled = true;
-
-        // Clear selected objects from EventSystem
-        EventSystem.current.SetSelectedGameObject(null);
+        pauseMenuCanvas.SetActive(false);
         
         Time.timeScale = 1;
-        pauseMenuCanvas.SetActive(false);
     }
 
     public void Quit()
