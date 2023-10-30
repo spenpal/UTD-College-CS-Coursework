@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arcadeArena>
+    <game>
+        <name>Bowling Game</name>
+        <description>Enjoy a classic game of bowling with friends and family!</description>
+        <type>Physical</type>
+        <minimumAge>10</minimumAge>
+        <pricing>
+            <hourly>$25.00</hourly>
+            <perGame>$5.00</perGame>
+        </pricing>
+        <image>
+            <description>Bowling alley with pins and colorful lights.</description>
+        </image>
+    </game>
+    <game>
+        <name>Arcade Basketball</name>
+        <description>Test your basketball skills and aim for the high score!</description>
+        <type>Physical</type>
+        <minimumAge>10</minimumAge>
+        <pricing>
+            <hourly>$25.00</hourly>
+            <perGame>$5.00</perGame>
+        </pricing>
+        <image>
+            <description>Arcade basketball hoop with colorful balls.</description>
+        </image>
+    </game>
+    <game>
+        <name>Air Hockey</name>
+        <description>Fast-paced fun with air hockey. Defeat your opponents!</description>
+        <type>Table Game</type>
+        <minimumAge>10</minimumAge>
+        <pricing>
+            <hourly>$25.00</hourly>
+            <perGame>$5.00</perGame>
+        </pricing>
+        <image>
+           <description>Air hockey table with paddles and puck.</description>
+        </image>
+    </game>
+    <game>
+        <name>Virtual Reality Racing</name>
+        <description>Experience the thrill of high-speed racing in virtual reality!</description>
+        <type>Virtual Reality</type>
+        <minimumAge>10</minimumAge>
+        <pricing>
+            <hourly>$25.00</hourly>
+            <perGame>$5.00</perGame>
+        </pricing>
+        <image>
+            <description>Virtual reality racing simulator with immersive graphics.</description>
+        </image>
+    </game>
+    <game>
+        <name>Classic Pinball</name>
+        <description>Play vintage pinball machines and relive the nostalgia!</description>
+        <type>Physical</type>
+        <minimumAge>12</minimumAge>
+        <pricing>
+            <hourly>$20.00</hourly>
+            <perGame>$4.00</perGame>
+        </pricing>
+        <image>
+           
+            <description>Classic pinball machine with vibrant artwork.</description>
+        </image>
+    </game>
+    <game>
+        <name>Laser Tag</name>
+        <description>Experience the thrill of high-tech laser tag battles with your friends!</description>
+        <type>Interactive</type>
+        <minimumAge>8</minimumAge>
+        <pricing>
+            <hourly>$25.00</hourly>
+            <perGame>$6.50</perGame>
+        </pricing>
+        <image>
+           
+            <description>Laser tag arena with neon lights and futuristic obstacles.</description>
+        </image>
+    </game>
+    <game>
+        <name>Virtual Reality Roller Coaster</name>
+        <description>Ride the wildest virtual reality roller coaster and experience adrenaline like never before!</description>
+        <type>Virtual Reality</type>
+        <minimumAge>12</minimumAge>
+        <pricing>
+            <hourly>$28.00</hourly>
+            <perGame>$5.75</perGame>
+        </pricing>
+        <image>
+            
+            <description>Virtual reality roller coaster simulation with twists and turns.</description>
+        </image>
+    </game>
+    
+    <game>
+        <name>Skee-Ball</name>
+        <description>Roll the balls and aim for the target holes in this classic Skee-Ball game!</description>
+        <type>Physical</type>
+        <minimumAge>6</minimumAge>
+        <pricing>
+            <hourly>$16.00</hourly>
+            <perGame>$2.25</perGame>
+        </pricing>
+        <image>
+           
+            <description>Skee-Ball lanes with rolling balls and scoring holes.</description>
+        </image>
+    </game>
+</arcadeArena>

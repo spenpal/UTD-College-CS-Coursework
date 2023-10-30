@@ -1,0 +1,36 @@
+{
+    "games": [
+        {
+            "name": "Bowling Game",
+            "imagePath": "images/bowling-image.jpg"
+        },
+        {
+            "name": "Arcade Basketball",
+            "imagePath": "images/arcade-basketball.jpg"
+        },
+        {
+            "name": "Air Hockey",
+            "imagePath": "images/air-hockey.jpg"
+        },
+        {
+            "name": "Virtual Reality Racing",
+            "imagePath": "images/vr-racing.jpg"
+        },
+        {
+            "name": "Classic Pinball",
+            "imagePath": "images/pinball.jpg"
+        },
+        {
+            "name": "Laser Tag",
+            "imagePath": "images/laser-tag.jpg"
+        },
+        {
+            "name": "Virtual Reality Roller Coaster",
+            "imagePath": "images/vr-roller-coaster.jpg"
+        },
+        {
+            "name": "Skee-Ball",
+            "imagePath": "images/skee-ball.jpg"
+        }
+    ]
+}
