@@ -36,7 +36,7 @@ async function populateTable() {
 
         const rowHTML = `<tr>
         <td class="align-middle">${name}</td>
-        <td class="align-middle">${description}</td>
+        <td class="align-middle">${description} ${image_description}</td>
         <td class="align-middle">${hourly}</td>
         <td class="align-middle">${perGame}</td>
         <td><img src="${gameImages[name]}" alt="${image_description}" class="img-fluid"></td>
