@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Arcade Games</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+        <style>
+            #main {
+                background-color: lightgray;
+            }
+
+            a, a:hover, a:focus, a:active {
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+            h1 {
+                font-size: 3em;
+                text-transform: uppercase;
+                font-family: "Roboto", sans-serif;
+                font-weight: 900;
+            }
+
+            #message {
+                font-size: 1.5em;
+                font-family: "Roboto", sans-serif;
+                font-weight: 300;
+            }
+
+            input[aria-label="Search"],.form-select {
+                max-width: 17.5%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main" class="container-fluid p-4">
+            <a href="/">Home</a>
+            <h1 class="my-3">Arcade</h1>
+            <div id="message" class="mb-5">This is the list of all games.</div>
+            <button type="button" class="btn btn-success mb-3"
+                onclick="window.location.href='/games/new'">Add
+                New Game</button>
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="name"
+                    aria-label="Search">
+                <select id="typeFilter" class="form-select">
+                    <option selected>No filter</option>
+                    <% typeList.forEach(type => { %>
+                    <option value="<%= type %>"><%= type %></option>
+                    <% }); %>
+                </select>
+                <button id="searchBtn" class="btn btn-primary" type="button">Search</button>
+            </div>
+        </div>
+        <div id="gamesList"
+            class="container-fluid p-4 pt-5 row row-cols-1 row-cols-md-5 g-5">
+            <% games.forEach(game => { %>
+            <div class="col">
+                <div class="card">
+                    <div class="ratio ratio-1x1">
+                        <img src="/<%= game.image.path %>" class="card-img-top"
+                            alt="<%= game.image.description %>">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="/games/<%= game._id %>"><%= game.name %></a>
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+    </body>
+    <script>
+        function performSearch() {
+            const name = $('input[aria-label="Search"]').val();
+            const type = $('#typeFilter').val();
+            if (name || type !== "No filter")
+                window.location.href = `/games/search?name=${name}&type=${type}`;
+            else
+                window.location.href = `/`;
+        }
+
+        $(document).ready(() => {
+            // Get the current URL
+            var currentURL = new URL(window.location.href);
+
+            // Access query parameters
+            var nameParam = currentURL.searchParams.get("name");
+            var typeParam = currentURL.searchParams.get("type");
+
+            // Set the values of the search fields
+            if (nameParam)
+                $('input[aria-label="Search"]').val(nameParam);
+            if (typeParam) 
+                $('#typeFilter').val(typeParam);
+
+            $('#searchBtn').click(() => {
+                performSearch();
+            });
+
+            $('input[aria-label="Search"]').keypress((e) => {
+                if (e.which === 13) { // 13 is the key code for Enter
+                    performSearch();
+                }
+            });
+        });
+    </script>
+</html>
