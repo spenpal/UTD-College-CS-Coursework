@@ -1,0 +1,4 @@
+Looking at the csvs generated I believe the results make sense in the context of network analysis.
+I think provide insights into the structure of the network. Since they work to identify key nodes and 
+show that both influential individuals and smaller and isolated communities. 
+This analysis can be important for understanding the way information flows and how community interacts and fpr,s, and influence within the network.
