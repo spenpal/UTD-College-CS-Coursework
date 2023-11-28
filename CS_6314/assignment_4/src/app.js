@@ -1,17 +1,17 @@
 /**
  * -------------- IMPORTS / CONFIGS ----------------
  */
-import "./config/env.js";
-import "./config/passport.js";
+import './config/env.js';
+import './config/passport.js';
 
-import MongoStore from "connect-mongo";
-import express from "express";
-import session from "express-session";
-import passport from "passport";
+import MongoStore from 'connect-mongo';
+import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
 
-import { client } from "./config/db.js";
-import authRoutes from "./routes/auth.js";
-import clientRoutes from "./routes/client.js";
+import { client } from './config/db.js';
+import authRoutes from './routes/auth.js';
+import clientRoutes from './routes/client.js';
 
 const app = express();
 app.set("view engine", "ejs");
@@ -56,5 +56,5 @@ app.use(function (err, req, res, next) {
  * -------------- SERVER ----------------
  */
 app.listen(process.env.PORT, () => {
-    console.log(`Server started on port ${process.env.PORT}`);
+    console.log(`Server started on port ${process.env.PORT || 3000}`);
 });
