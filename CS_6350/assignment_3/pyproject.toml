@@ -11,6 +11,7 @@ dependencies = [
     "requests>=2.31.0",
     "spacy>=3.7.2",
     "pyspark>=3.5.0",
+    "graphframes>=0.6",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
